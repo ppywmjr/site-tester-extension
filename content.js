@@ -1,26 +1,31 @@
-//This runs when the button is clicked
-
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-        console.log("extension called");
-//        displayArrayInConsoleLog( request.greeting );
-        if (request.sentNumberOfPagesChecked > 0){
-          console.log("numberOfPagesChecked >0");
-        }else{
-          var startPageURL = window.location.href;
-          //testWebsite();
-          CheckPageForErrors();
-          sendResponse({firstPage: startPageURL});
-
-          return true;
-        }
-//        numberOfPagesChecked = request.sentNumberOfPagesChecked;
-//        console.log(numberOfPagesChecked);
-//        testWebsite();
-
-//        return true;
-
+$( document ).ready(function() {
+    console.log( "Document ready!" );
+    chrome.runtime.sendMessage({greeting: "Should I test?"}, function(response) {
+      console.log(response.shouldITest);
+      if (response.shouldITest == "Yes"){
+        testPage();
+      }else{
+        setUpListener();
+      }
+    });
 });
+
+function setUpListener(){
+      chrome.runtime.onMessage.addListener(
+        function(request, sender, sendResponse) {
+        console.log("extension called");
+        testPage();
+      });
+}
+
+
+
+
+
+
+
+
+
 
 function testWebsite(){
     console.log("testWebsite called");
@@ -28,7 +33,6 @@ function testWebsite(){
         AddUniqueURLsToLinksArray();
         displayArrayInConsoleLog(linksArray);
 }
-
 
 function displayArrayInConsoleLog( _thisArray ){
   console.log("displayArrayInConsoleLog called");

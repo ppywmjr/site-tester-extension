@@ -2,17 +2,17 @@ var isTestRunning = false;
 var linksArray = ["http://www.catherinetaylordance.co.uk", "http://www.catherinetaylordance.co.uk/about/", "http://www.catherinetaylordance.co.uk/contact/"];
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
-var maxNumberOfPagesToCheck = 2;
+var maxNumberOfPagesToCheck = 3;
 var lookFor = "catherine";
 var linksMustContain = "catherinetaylordance.co.uk";
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
         console.log("Request to test page received from content.");
-        console.log("greeting is" + request.greeting);
-        console.log("error page is" + request.errorPage);
-        console.log("ContentpageLinks are:");
+        console.log("greeting is " + request.greeting);
+        console.log("error page is " + request.errorPage);
         if (request.currentPageLinks != null) {
+          console.log("ContentpageLinks are: ");
           displayArrayInConsoleLog(request.currentPageLinks);
           AddUniqueURLsToLinksArray(request.currentPageLinks);
         }
@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(
               console.log("numberOfPagesChecked = " + numberOfPagesChecked);
           }
         } else if (request.errorPage != null){
-          console.log(request.errorPage);
+          console.log("Adding to arrayOfPagesWithError:" + request.errorPage);
           arrayOfPagesWithError.push(request.errorPage);
         }
       });

@@ -3,32 +3,61 @@ var contentPageLinksArray = [];
 $( document ).ready(function() {
     console.log( "Document ready!" );
     addAllLinksToContentPageLinksArray();
+    console.log("sending message to background");
     chrome.runtime.sendMessage({greeting: "Should I test?", currentPageLinks: contentPageLinksArray}, function(response) {
+      console.log(response.shouldITest);
       console.log(response.testFor);
       console.log(response.nextPage);
-      testPage(response.testFor);
-      go to the next page
-//      if (response.shouldITest == "Yes"){
-//        testPage();
-//      }else{
-//        setUpListener();
-//      }
+      if (response.shouldITest == "No"){
+        setUpListener();
+        return null;
+      }
+      else{
+        testPage(response.testFor);
+        if (response.nextPage == "Stop"){
+          return null;
+        }else{
+        //  location.assign(response.nextPage);
+        }
+      }
     });
 });
 
-/*
+
  function setUpListener(){
-      chrome.runtime.onMessage.addListener(
+        console.log("setUpListener called");
+        chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
-        console.log("extension called");
-        testPage();
+        console.log("extension called from background");
+        console.log(request.greeting);
+        console.log(request.testFor);
+        console.log(request.nextPage);
+        testPage(request.testFor);
+        if (request.nextPage == "Stop"){
+          return null;
+        }else{
+        //  location.assign(response.nextPage);
+        }
       });
 }
-*/
 
-function testPage(error){
-    console.log("testPage called");
-        CheckPageForErrors();
+
+function addAllLinksToContentPageLinksArray(){
+  console.log("addAllLinksToContentPageLinksArray called");
+  var currentPageURL = window.location.href;
+  contentPageLinksArray = [currentPageURL];
+  addURLsToLinksArray();
+  displayArrayInConsoleLog(contentPageLinksArray);
+}
+
+function addURLsToLinksArray(){
+  console.log("AddUniqueURLsToLinksArray called");
+$("a").each(function() {
+  console.log("looked up next link");
+  var _thisHref = this.href;
+  console.log(_thisHref);
+  contentPageLinksArray.push(_thisHref);
+});
 }
 
 function displayArrayInConsoleLog( _thisArray ){
@@ -40,9 +69,19 @@ function displayArrayInConsoleLog( _thisArray ){
 }
 
 
-function CheckPageForErrors(){
+
+
+
+
+
+function testPage(error){
+    console.log("testPage called");
+        CheckPageForErrors(error);
+}
+
+function CheckPageForErrors(error){
   console.log("CheckPageForErrors called")
-  var isError = $( "*:contains('Stack Trace')" ).length;
+  var isError = $( "*:contains('" + error + "')" ).length;
   console.log(isError.toString());
   if (isError > 0){
       console.log("error found")
@@ -51,24 +90,6 @@ function CheckPageForErrors(){
       console.log("error NOT found")
   }
 return true;
-}
-
-function addAllLinksToContentPageLinksArray(){
-  console.log("addAllLinksToContentPageLinksArray");
-  var currentPageURL = window.location.href;
-  contentPageLinksArray = [currentPageURL];
-  addURLsToLinksArray();
-  displayArrayInConsoleLog(contentPageLinksArray);
-}
-
-function addURLsToLinksArray(){
-  console.log("AddUniqueURLsToLinksArray called");
-$("a").each(function() {
-  console.log("looked up links");
-  var _thisHref = this.href;
-  console.log(_thisHref);
-  linksArray.push(_thisHref);
-});
 }
 
 /*

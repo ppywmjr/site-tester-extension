@@ -46,17 +46,27 @@ function addAllLinksToContentPageLinksArray(){
   console.log("addAllLinksToContentPageLinksArray called");
   var currentPageURL = window.location.href;
   contentPageLinksArray = [currentPageURL];
-  addURLsToLinksArray();
+  addUniqueURLsToContentPageLinksArray();
   displayArrayInConsoleLog(contentPageLinksArray);
 }
 
-function addURLsToLinksArray(){
+function addUniqueURLsToContentPageLinksArray(){
   console.log("AddUniqueURLsToLinksArray called");
 $("a").each(function() {
   //console.log("looked up next link");
   var _thisHref = this.href;
   //console.log(_thisHref);
-  contentPageLinksArray.push(_thisHref);
+  ifLinkIsUniqueAppendItToArray(_thisHref, contentPageLinksArray);
+});
+}
+
+function AddUniqueURLsToLinksArray(){
+  console.log("AddUniqueURLsToLinksArray called");
+$("a").each(function() {
+  console.log("looked up links");
+  var _thisHref = this.href;
+  console.log(_thisHref);
+  ifLinkIsUniqueAppendItToArray(_thisHref, contentPageLinksArray);
 });
 }
 
@@ -85,4 +95,26 @@ function reportErrorToBackground(){
   var currentPageURL = window.location.href;
   console.log("window.location.href is: " + currentPageURL);
     chrome.runtime.sendMessage({errorPage: currentPageURL, greeting: "sending error"}, function(response) {});
+}
+
+function ifLinkIsUniqueAppendItToArray(thisLink, thisLinksArray) {
+console.log("ifLinkIsUniqueAppendItToArray called");
+  var arrayLength = thisLinksArray.length;
+  for (y = 0; y < arrayLength; y++) {
+    if (hrefIsTheSame(thisLink, thisLinksArray[y])) {
+      console.log("duplicate url " + thisLink);
+      return;
+    }
+  }
+  console.log( "unique url");
+  contentPageLinksArray.push(thisLink);
+}
+
+function hrefIsTheSame(link1, link2) {
+console.log("hrefIsTheSame called");
+  if (link1 == link2) {
+    return true;
+  } else {
+    return false;
+  }
 }

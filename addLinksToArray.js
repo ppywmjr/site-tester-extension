@@ -1,4 +1,4 @@
-function hrefIsTheSame(link1, link2) {
+/*function hrefIsTheSame(link1, link2) {
 console.log("hrefIsTheSame called");
   if (link1 == link2) {
     return true;
@@ -29,3 +29,4 @@ $("a").each(function() {
   ifLinkIsUniqueAppendItToArray(_thisHref, linksArray);
 });
 }
+*/

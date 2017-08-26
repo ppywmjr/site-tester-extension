@@ -11,12 +11,7 @@ chrome.runtime.onMessage.addListener(
         console.log("Request to test page received from content.");
         console.log("greeting is " + request.greeting);
         console.log("error page is " + request.errorPage);
-        if (request.currentPageLinks != null) {
-          console.log("ContentpageLinks are: ");
-          displayArrayInConsoleLog(request.currentPageLinks);
-          AddUniqueURLsToLinksArray(request.currentPageLinks);
-        }
-        displayArrayInConsoleLog(linksArray);
+        //displayArrayInConsoleLog(linksArray);
         if (request.greeting == "Should I test?"){
           if (isTestRunning == false){
               console.log("response: No");
@@ -25,12 +20,22 @@ chrome.runtime.onMessage.addListener(
             console.log("maxNumberOfPagesToCheck reached");
             isTestRunning = false;
             sendResponse({shouldITest: "No"});
+            if (request.currentPageLinks != null) {
+              //console.log("ContentpageLinks are: ");
+              //displayArrayInConsoleLog(request.currentPageLinks);
+              AddUniqueURLsToLinksArray(request.currentPageLinks);
+            }
             console.log("error pages are:");
             displayArrayInConsoleLog(arrayOfPagesWithError);
             console.log("The linksArray is:");
             displayArrayInConsoleLog(linksArray);
           }else {
               console.log("response: yes");
+              if (request.currentPageLinks != null) {
+                //console.log("ContentpageLinks are: ");
+                //displayArrayInConsoleLog(request.currentPageLinks);
+                AddUniqueURLsToLinksArray(request.currentPageLinks);
+              }
               sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: linksArray[numberOfPagesChecked]});
               numberOfPagesChecked = numberOfPagesChecked + 1;
               console.log("numberOfPagesChecked = " + numberOfPagesChecked);

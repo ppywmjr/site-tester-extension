@@ -1,5 +1,5 @@
 var isTestRunning = false;
-var linksArray = ["http://www.catherinetaylordance.co.uk", "http://www.catherinetaylordance.co.uk/about/", "http://www.catherinetaylordance.co.uk/contact/"];
+var linksArray = [];
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
 var maxNumberOfPagesToCheck = 3;
@@ -46,7 +46,6 @@ chrome.runtime.onMessage.addListener(
         }
       });
 
-
 chrome.browserAction.onClicked.addListener(function(tab) {
     console.log("browser button clicked");
     isTestRunning = true;
@@ -67,10 +66,6 @@ function AddUniqueURLsToLinksArray(contentArray){
       ifLinkIsUniqueAppendItToArray(_thisHref, linksArray);
     }
   }
-}
-
-function hrefMatchesRequirement(thisHref){
-
 }
 
 function ifLinkIsUniqueAppendItToArray(thisLink, thisLinksArray) {

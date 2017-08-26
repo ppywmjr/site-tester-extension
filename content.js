@@ -41,35 +41,28 @@ $( document ).ready(function() {
       });
 }
 
-
 function addAllLinksToContentPageLinksArray(){
   console.log("addAllLinksToContentPageLinksArray called");
   var currentPageURL = window.location.href;
   contentPageLinksArray = [currentPageURL];
-  addUniqueURLsToContentPageLinksArray();
+  $("a").each(function() {
+    var _thisHref = this.href;
+    contentPageLinksArray.push(_thisHref);
+  });
   displayArrayInConsoleLog(contentPageLinksArray);
 }
-
-function addUniqueURLsToContentPageLinksArray(){
-  console.log("AddUniqueURLsToLinksArray called");
+/*
+function addURLsToContentPageLinksArray(){
+  console.log("AddURLsToLinksArray called");
 $("a").each(function() {
   //console.log("looked up next link");
   var _thisHref = this.href;
+  contentPageLinksArray.push(_thisHref);
   //console.log(_thisHref);
-  ifLinkIsUniqueAppendItToArray(_thisHref, contentPageLinksArray);
+  //ifLinkIsUniqueAppendItToArray(_thisHref, contentPageLinksArray);
 });
 }
-
-function AddUniqueURLsToLinksArray(){
-  console.log("AddUniqueURLsToLinksArray called");
-$("a").each(function() {
-  console.log("looked up links");
-  var _thisHref = this.href;
-  console.log(_thisHref);
-  ifLinkIsUniqueAppendItToArray(_thisHref, contentPageLinksArray);
-});
-}
-
+*/
 function displayArrayInConsoleLog( _thisArray ){
   //console.log("displayArrayInConsoleLog called");
   var thisArrayLength = _thisArray.length;
@@ -97,6 +90,7 @@ function reportErrorToBackground(){
     chrome.runtime.sendMessage({errorPage: currentPageURL, greeting: "sending error"}, function(response) {});
 }
 
+/*
 function ifLinkIsUniqueAppendItToArray(thisLink, thisLinksArray) {
 console.log("ifLinkIsUniqueAppendItToArray called");
   var arrayLength = thisLinksArray.length;
@@ -118,3 +112,4 @@ console.log("hrefIsTheSame called");
     return false;
   }
 }
+*/

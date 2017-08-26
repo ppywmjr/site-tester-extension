@@ -1,0 +1,15 @@
+     content                                  background
+
+>> get all link on page
+>> send to background
+>> wait for response
+
+                                  >> add relevant links to the array
+                                  >> if test has started, send next page to test
+                                  >> and send what to test
+                                  >> if test hasn't started set up listener
+                                  >> then when clicked send the next page and what to test
+
+>> test page, send result (this page and passed or failed)
+>> navigate to next page
+                                 >> Store result

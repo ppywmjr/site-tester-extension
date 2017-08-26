@@ -1,31 +1,34 @@
-var linksArray = [];
+var contentPageLinksArray = [];
 
 $( document ).ready(function() {
     console.log( "Document ready!" );
-    chrome.runtime.sendMessage({greeting: "Should I test?"}, function(response) {
-      console.log(response.shouldITest);
-      if (response.shouldITest == "Yes"){
-        sendPageLinksToBackground();
-        testPage();
-      }else{
-        setUpListener();
-      }
+    addAllLinksToContentPageLinksArray();
+    chrome.runtime.sendMessage({greeting: "Should I test?", currentPageLinks: contentPageLinksArray}, function(response) {
+      console.log(response.testFor);
+      console.log(response.nextPage);
+      testPage(response.testFor);
+      go to the next page
+//      if (response.shouldITest == "Yes"){
+//        testPage();
+//      }else{
+//        setUpListener();
+//      }
     });
 });
 
-function setUpListener(){
+/*
+ function setUpListener(){
       chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
         console.log("extension called");
         testPage();
       });
 }
+*/
 
-function testPage(){
+function testPage(error){
     console.log("testPage called");
         CheckPageForErrors();
-        AddUniqueURLsToLinksArray();
-        displayArrayInConsoleLog(linksArray);
 }
 
 function displayArrayInConsoleLog( _thisArray ){
@@ -50,10 +53,22 @@ function CheckPageForErrors(){
 return true;
 }
 
-function sendPageLinksToBackground(){
+function addAllLinksToContentPageLinksArray(){
+  console.log("addAllLinksToContentPageLinksArray");
   var currentPageURL = window.location.href;
-  linksArray = [currentPageURL];
-  AddUniqueURLsToLinksArray();
+  contentPageLinksArray = [currentPageURL];
+  addURLsToLinksArray();
+  displayArrayInConsoleLog(contentPageLinksArray);
+}
+
+function addURLsToLinksArray(){
+  console.log("AddUniqueURLsToLinksArray called");
+$("a").each(function() {
+  console.log("looked up links");
+  var _thisHref = this.href;
+  console.log(_thisHref);
+  linksArray.push(_thisHref);
+});
 }
 
 /*
@@ -64,5 +79,4 @@ function openCopyOfCurrentURLinNewTab(){
 function reportErrorToBackground(){
   var currentPageURL = window.location.href;
   linksArray = [currentPageURL];
-
 }

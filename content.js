@@ -17,7 +17,7 @@ $( document ).ready(function() {
         if (response.nextPage == "Stop"){
           return null;
         }else{
-        //  location.assign(response.nextPage);
+        location.assign(response.nextPage);
         }
       }
     });
@@ -36,7 +36,7 @@ $( document ).ready(function() {
         if (request.nextPage == "Stop"){
           return null;
         }else{
-        //  location.assign(response.nextPage);
+        location.assign(request.nextPage);
         }
       });
 }

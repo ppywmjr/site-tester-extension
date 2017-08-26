@@ -1,5 +1,5 @@
 var hasTheTestStarted = false;
-var linksArray = ["nothing"];
+var linksArray = ["http://www.catherinetaylordance.co.uk"];
 var numberOfPagesChecked = 0;
 var maxNumberOfPagesToCheck = 10;
 var lookFor = "output";

@@ -53,51 +53,36 @@ function addAllLinksToContentPageLinksArray(){
 function addURLsToLinksArray(){
   console.log("AddUniqueURLsToLinksArray called");
 $("a").each(function() {
-  console.log("looked up next link");
+  //console.log("looked up next link");
   var _thisHref = this.href;
-  console.log(_thisHref);
+  //console.log(_thisHref);
   contentPageLinksArray.push(_thisHref);
 });
 }
 
 function displayArrayInConsoleLog( _thisArray ){
-  console.log("displayArrayInConsoleLog called");
+  //console.log("displayArrayInConsoleLog called");
   var thisArrayLength = _thisArray.length;
   for (x = 0; x < thisArrayLength; x++) {
     console.log( _thisArray[x] );
   }
 }
 
-
-
-
-
-
-
 function testPage(error){
-    console.log("testPage called");
-        CheckPageForErrors(error);
-}
-
-function CheckPageForErrors(error){
-  console.log("CheckPageForErrors called")
+  console.log("testPage called")
   var isError = $( "*:contains('" + error + "')" ).length;
   console.log(isError.toString());
   if (isError > 0){
       console.log("error found")
-
+      reportErrorToBackground();
   }else {
       console.log("error NOT found")
   }
 return true;
 }
 
-/*
-function openCopyOfCurrentURLinNewTab(){
-  var currentPageURL = window.location.href;
-  window.open(currentPageURL);
-}*/
 function reportErrorToBackground(){
   var currentPageURL = window.location.href;
-  linksArray = [currentPageURL];
+  console.log("window.location.href is: " + currentPageURL);
+    chrome.runtime.sendMessage({errorPage: currentPageURL, greeting: "sending error"}, function(response) {});
 }

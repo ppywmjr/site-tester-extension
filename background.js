@@ -1,5 +1,5 @@
 var isTestRunning = false;
-var linksArray = ["http://www.catherinetaylordance.co.uk"];
+var linksArray = ["http://www.catherinetaylordance.co.uk", "http://www.catherinetaylordance.co.uk/about/", "http://www.catherinetaylordance.co.uk/content/"];
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
 var maxNumberOfPagesToCheck = 3;

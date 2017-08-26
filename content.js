@@ -7,7 +7,7 @@ $( document ).ready(function() {
     chrome.runtime.sendMessage({greeting: "Should I test?", currentPageLinks: contentPageLinksArray}, function(response) {
       console.log(response.shouldITest);
       console.log("test for: " + response.testFor);
-      console.log("next page is" + response.nextPage);
+      console.log("next page is: " + response.nextPage);
       if (response.shouldITest == "No"){
         setUpListener();
         return null;

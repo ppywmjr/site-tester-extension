@@ -1,5 +1,5 @@
 var isTestRunning = false;
-var linksArray = [];
+var linksArray = ["http://www.catherinetaylordance.co.uk"];
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
 var maxNumberOfPagesToCheck = 3;
@@ -73,11 +73,11 @@ console.log("ifLinkIsUniqueAppendItToArray called");
   var arrayLength = thisLinksArray.length;
   for (y = 0; y < arrayLength; y++) {
     if (hrefIsTheSame(thisLink, thisLinksArray[y])) {
-      console.log("duplicate url " + thisLink);
+    //  console.log("duplicate url " + thisLink);
       return;
     }
   }
-  console.log( "unique url");
+  //console.log( "unique url");
   linksArray.push(thisLink);
 }
 

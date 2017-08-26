@@ -6,8 +6,8 @@ $( document ).ready(function() {
     console.log("sending message to background");
     chrome.runtime.sendMessage({greeting: "Should I test?", currentPageLinks: contentPageLinksArray}, function(response) {
       console.log(response.shouldITest);
-      console.log(response.testFor);
-      console.log(response.nextPage);
+      console.log("test for: " + response.testFor);
+      console.log("next page is" + response.nextPage);
       if (response.shouldITest == "No"){
         setUpListener();
         return null;

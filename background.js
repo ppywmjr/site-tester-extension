@@ -59,12 +59,18 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 function AddUniqueURLsToLinksArray(contentArray){
   console.log("AddUniqueURLsToLinksArray called");
   var arrayLength = contentArray.length;
-  console.log("Content page links array length is " + arrayLength.toString())
+  //console.log("Content page links array length is " + arrayLength.toString())
   for (x = 0; x < arrayLength; x++) {
   var _thisHref = contentArray[x];
-  console.log(_thisHref);
-    ifLinkIsUniqueAppendItToArray(_thisHref, linksArray);
+  //console.log(_thisHref);
+    if (_thisHref.includes(linksMustContain)){
+      ifLinkIsUniqueAppendItToArray(_thisHref, linksArray);
     }
+  }
+}
+
+function hrefMatchesRequirement(thisHref){
+
 }
 
 function ifLinkIsUniqueAppendItToArray(thisLink, thisLinksArray) {

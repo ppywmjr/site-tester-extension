@@ -1,56 +1,62 @@
 var isTestRunning = false;
-var linksArray = ["http://www.catherinetaylordance.co.uk", "http://www.catherinetaylordance.co.uk/about/", "http://www.catherinetaylordance.co.uk/content/"];
+var linksArray = ["http://www.catherinetaylordance.co.uk/"];
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
-var maxNumberOfPagesToCheck = 3;
+var maxNumberOfPagesToCheck = 6;
 var lookFor = "catherine";
 var linksMustContain = "catherinetaylordance.co.uk";
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
-        console.log("Request to test page received from content.");
+        console.log("Request received from content.");
         console.log("greeting is " + request.greeting);
         console.log("error page is " + request.errorPage);
         //displayArrayInConsoleLog(linksArray);
         if (request.greeting == "Should I test?"){
-          if (isTestRunning == false){
-              console.log("response: No");
-              sendResponse({shouldITest: "No"});
-          }else if (numberOfPagesChecked == maxNumberOfPagesToCheck){
-            console.log("maxNumberOfPagesToCheck reached");
-            isTestRunning = false;
-            sendResponse({shouldITest: "No"});
-            if (request.currentPageLinks != null) {
-              //console.log("ContentpageLinks are: ");
-              //displayArrayInConsoleLog(request.currentPageLinks);
-              AddUniqueURLsToLinksArray(request.currentPageLinks);
-            }
-            console.log("error pages are:");
-            displayArrayInConsoleLog(arrayOfPagesWithError);
-            console.log("The linksArray is:");
-            displayArrayInConsoleLog(linksArray);
-          }else {
-              console.log("response: yes");
-              if (request.currentPageLinks != null) {
-                //console.log("ContentpageLinks are: ");
-                //displayArrayInConsoleLog(request.currentPageLinks);
-                AddUniqueURLsToLinksArray(request.currentPageLinks);
-              }
-              sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: linksArray[numberOfPagesChecked]});
-              numberOfPagesChecked = numberOfPagesChecked + 1;
-              console.log("numberOfPagesChecked = " + numberOfPagesChecked);
-          }
+                if (isTestRunning == false){
+                    console.log("response: No");
+                    sendResponse({shouldITest: "No"});
+                } else if (numberOfPagesChecked >= maxNumberOfPagesToCheck){
+                      console.log("maxNumberOfPagesToCheck reached");
+                      isTestRunning = false;
+                      console.log("response: No");
+                      sendResponse({shouldITest: "No"});
+                      if (request.currentPageLinks != null) {
+                        console.log("request.currentPageLinks is not null.")
+                        //console.log("ContentpageLinks are: ");
+                        //displayArrayInConsoleLog(request.currentPageLinks);
+                        AddUniqueURLsToLinksArray(request.currentPageLinks);
+                      }
+                      displayFinalResults();
+                } else {
+                      console.log("response: yes");
+                      if (request.currentPageLinks != null) {
+                          //console.log("ContentpageLinks are: ");
+                          //displayArrayInConsoleLog(request.currentPageLinks);
+                          AddUniqueURLsToLinksArray(request.currentPageLinks);
+                        }
+                        sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: linksArray[numberOfPagesChecked]});
+                        numberOfPagesChecked = numberOfPagesChecked + 1;
+                        console.log("numberOfPagesChecked = " + numberOfPagesChecked);
+                }
         } else if (request.errorPage != null){
-          console.log("Adding to arrayOfPagesWithError:" + request.errorPage);
-          arrayOfPagesWithError.push(request.errorPage);
+                console.log("Adding to arrayOfPagesWithError:" + request.errorPage);
+                arrayOfPagesWithError.push(request.errorPage);
+                console.log("arrayOfPagesWithError is now:")
+                displayArrayInConsoleLog(arrayOfPagesWithError);
+                if (isTestRunning == false){
+                  displayFinalResults();
+                }
         }
-      });
+});
 
 chrome.browserAction.onClicked.addListener(function(tab) {
     console.log("browser button clicked");
     isTestRunning = true;
+    nextPageToCheck = linksArray[numberOfPagesChecked];
+    numberOfPagesChecked = numberOfPagesChecked + 1;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {greeting: "StartTesting", testFor: lookFor, nextPage: linksArray[numberOfPagesChecked]}, function(response) {
+      chrome.tabs.sendMessage(tabs[0].id, {greeting: "StartTesting", testFor: lookFor, nextPage: nextPageToCheck}, function(response) {
       });
     });
 });
@@ -66,10 +72,12 @@ function AddUniqueURLsToLinksArray(contentArray){
       ifLinkIsUniqueAppendItToArray(_thisHref, linksArray);
     }
   }
+  console.log("linksArray is now:")
+  displayArrayInConsoleLog(linksArray);
 }
 
 function ifLinkIsUniqueAppendItToArray(thisLink, thisLinksArray) {
-console.log("ifLinkIsUniqueAppendItToArray called");
+//console.log("ifLinkIsUniqueAppendItToArray called");
   var arrayLength = thisLinksArray.length;
   for (y = 0; y < arrayLength; y++) {
     if (hrefIsTheSame(thisLink, thisLinksArray[y])) {
@@ -82,7 +90,7 @@ console.log("ifLinkIsUniqueAppendItToArray called");
 }
 
 function hrefIsTheSame(link1, link2) {
-console.log("hrefIsTheSame called");
+//console.log("hrefIsTheSame called");
   if (link1 == link2) {
     return true;
   } else {
@@ -96,4 +104,12 @@ function displayArrayInConsoleLog( _thisArray ){
   for (z = 0; z < thisArrayLength; z++) {
     console.log( _thisArray[z] );
   }
+}
+
+function displayFinalResults(){
+  console.log("error pages are:");
+  displayArrayInConsoleLog(arrayOfPagesWithError);
+  console.log("The linksArray is:");
+  displayArrayInConsoleLog(linksArray);
+  console.log("The number of pages tested is " + numberOfPagesChecked.toString())
 }

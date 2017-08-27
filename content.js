@@ -14,32 +14,39 @@ $( document ).ready(function() {
       }
       else{
         testPage(response.testFor);
-        if (response.nextPage == "Stop"){
-          return null;
-        }else{
+        if (response.nextPage != "Stop"){
+
           loadNextPage(response.nextPage);
+        }else{
+
         }
       }
     });
 });
 
-function loadNextPage(nextPage){
-  location.assign(nextPage);
-  location.reload();
-}
+function loadNextPage(_nextPage){
+  console.log("nextPage is: " + _nextPage);
+  location.assign( _nextPage );
+  //location.href = _nextPage;
+  console.log("passed location.assignn");
+  setTimeout(function(){location.reload()}, 1000);
+  }
 
  function setUpListener(){
         console.log("setUpListener called");
         chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
         console.log("extension called from background");
-        console.log(request.greeting);
-        console.log(request.testFor);
-        console.log(request.nextPage);
+        console.log("greeting is " + request.greeting);
+        console.log("testFor is " + request.testFor);
+        console.log("nextPage is " + request.nextPage);
         testPage(request.testFor);
         if (request.nextPage == "Stop"){
           return null;
         }else{
+          console.log("next page is not stop");
+        //  location.assign(request.nextPage);
+        //  location.reload();
           loadNextPage(request.nextPage);
         }
       });
@@ -73,7 +80,6 @@ function testPage(error){
   }else {
       console.log("error NOT found")
   }
-return true;
 }
 
 function reportErrorToBackground(){

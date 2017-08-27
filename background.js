@@ -2,9 +2,9 @@ var isTestRunning = false;
 var linksArray = ["http://www.catherinetaylordance.co.uk/"];
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
-var maxNumberOfPagesToCheck = 6;
-var lookFor = "catherine";
-var linksMustContain = "catherinetaylordance.co.uk";
+var maxNumberOfPagesToCheck = 8;
+var lookFor = "Belly";
+var linksMustContain = "catherinetaylordance.co.uk/about";
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
@@ -23,8 +23,6 @@ chrome.runtime.onMessage.addListener(
                       sendResponse({shouldITest: "No"});
                       if (request.currentPageLinks != null) {
                         console.log("request.currentPageLinks is not null.")
-                        //console.log("ContentpageLinks are: ");
-                        //displayArrayInConsoleLog(request.currentPageLinks);
                         AddUniqueURLsToLinksArray(request.currentPageLinks);
                       }
                       displayFinalResults();
@@ -34,8 +32,17 @@ chrome.runtime.onMessage.addListener(
                           //console.log("ContentpageLinks are: ");
                           //displayArrayInConsoleLog(request.currentPageLinks);
                           AddUniqueURLsToLinksArray(request.currentPageLinks);
+                          if (linksArray.length <= numberOfPagesChecked){
+                            sendResponse({shouldITest: "No"});
+                            displayFinalResults();
+                        } else {
+                            var sentNextPage = linksArray[numberOfPagesChecked];
                         }
-                        sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: linksArray[numberOfPagesChecked]});
+
+                          console.log("sentNextPage is: " + sentNextPage);
+                          console.log("number of pages checked is: " + numberOfPagesChecked);
+                        }
+                        sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
                         numberOfPagesChecked = numberOfPagesChecked + 1;
                         console.log("numberOfPagesChecked = " + numberOfPagesChecked);
                 }
@@ -53,7 +60,8 @@ chrome.runtime.onMessage.addListener(
 chrome.browserAction.onClicked.addListener(function(tab) {
     console.log("browser button clicked");
     isTestRunning = true;
-    nextPageToCheck = linksArray[numberOfPagesChecked];
+    var nextPageToCheck = linksArray[numberOfPagesChecked];
+    console.log("Sent next page to check :" + nextPageToCheck);
     numberOfPagesChecked = numberOfPagesChecked + 1;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {greeting: "StartTesting", testFor: lookFor, nextPage: nextPageToCheck}, function(response) {

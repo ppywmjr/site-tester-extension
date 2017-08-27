@@ -66,7 +66,7 @@ function displayArrayInConsoleLog( _thisArray ){
 function testPage(error){
   console.log("testPage called")
   var isError = $( "*:contains('" + error + "')" ).length;
-  console.log(isError.toString());
+  console.log("Number of errors on page is " + isError.toString());
   if (isError > 0){
       console.log("error found")
       reportErrorToBackground();

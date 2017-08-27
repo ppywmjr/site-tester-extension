@@ -107,6 +107,7 @@ function displayArrayInConsoleLog( _thisArray ){
 }
 
 function displayFinalResults(){
+  console.log("Number of pages with errors is " + arrayOfPagesWithError.length.toString());
   console.log("error pages are:");
   displayArrayInConsoleLog(arrayOfPagesWithError);
   console.log("The linksArray is:");

@@ -2,9 +2,9 @@ var isTestRunning = false;
 var linksArray = ["http://www.catherinetaylordance.co.uk/"];
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
-var maxNumberOfPagesToCheck = 8;
-var lookFor = "Belly";
-var linksMustContain = "catherinetaylordance.co.uk/about";
+var maxNumberOfPagesToCheck = 100;
+var lookFor = "London";
+var linksMustContain = "catherinetaylordance.co.uk";
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
@@ -115,10 +115,10 @@ function displayArrayInConsoleLog( _thisArray ){
 }
 
 function displayFinalResults(){
-  console.log("Number of pages with errors is " + arrayOfPagesWithError.length.toString());
-  console.log("error pages are:");
-  displayArrayInConsoleLog(arrayOfPagesWithError);
   console.log("The linksArray is:");
   displayArrayInConsoleLog(linksArray);
+  console.log("error pages are:");
+  displayArrayInConsoleLog(arrayOfPagesWithError);
   console.log("The number of pages tested is " + numberOfPagesChecked.toString())
+  console.log("Number of pages with errors is " + arrayOfPagesWithError.length.toString());
 }

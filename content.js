@@ -17,14 +17,14 @@ $( document ).ready(function() {
         if (response.nextPage == "Stop"){
           return null;
         }else{
-          loadNextPage();
+          loadNextPage(response.nextPage);
         }
       }
     });
 });
 
-function loadNextPage(){
-  location.assign(response.nextPage);
+function loadNextPage(nextPage){
+  location.assign(nextPage);
   location.reload();
 }
 
@@ -40,7 +40,7 @@ function loadNextPage(){
         if (request.nextPage == "Stop"){
           return null;
         }else{
-          loadNextPage();
+          loadNextPage(request.nextPage);
         }
       });
 }

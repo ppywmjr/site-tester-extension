@@ -1,6 +1,6 @@
 {
   "name": "Click Through Tester",
-  "version": "0.0.0.3",
+  "version": "0.0.0.4",
   "description": "This extension lists all of the links on a page and goes through them recursively. If any of the pages shows a yellow screen error, it opens a copy of the page in a new tab.",
   "permissions": [
     "activeTab"
@@ -17,8 +17,8 @@
 }],
   "browser_action": {
       "default_title": "Click Through Tester",
-      "default_icon": "icon.png"
-
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
   },
   "icons" : {
     "128": "icon.png"

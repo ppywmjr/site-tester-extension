@@ -2,9 +2,9 @@ var isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or fi
 var linksArray = [];
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
-var maxNumberOfPagesToCheck = 10;
-var lookFor = "error";
-var linksMustContain = "testpage";
+var maxNumberOfPagesToCheck;
+var lookFor; //= "error";
+var linksMustContain = "";
 var tempLinksArray = [];
 
 chrome.runtime.onMessage.addListener(
@@ -12,6 +12,12 @@ chrome.runtime.onMessage.addListener(
           console.log("greeting = " + request.greeting);
           console.log("isTestNotStartedRunningOrFinished is:" + isTestNotStartedRunningOrFinished);
         switch (request.greeting){
+          case "Start":
+                  lookFor = request.lookFor;
+                  linksMustContain = request.linksMustContain;
+                  maxNumberOfPagesToCheck = request.maxNumberOfPagesToCheck;
+                  startTest();
+                  break;
           case "Should I test?":
                   tempLinksArray = request.currentPageLinks;
                   if(shouldTestFinish()){
@@ -25,6 +31,7 @@ chrome.runtime.onMessage.addListener(
                     case "finished":
                       sendResponse({shouldITest: "No"});
                       displayFinalResults();
+                      resetExtension();
                       break;
                     case "running":
                     addUniqueURLsToLinksArray(tempLinksArray);
@@ -48,11 +55,12 @@ chrome.runtime.onMessage.addListener(
             sendResponse("Error Stored");
             if (isTestNotStartedRunningOrFinished == "finished" ){
               displayFinalResults();
+              resetExtension();
             }
           }
 
 });
-
+/*
 chrome.browserAction.onClicked.addListener(function(tab) {
     console.log("browser button clicked");
     isTestNotStartedRunningOrFinished = "running";
@@ -65,6 +73,21 @@ chrome.browserAction.onClicked.addListener(function(tab) {
       });
     });
 });
+*/
+
+function startTest() {
+    console.log("browser button clicked");
+    isTestNotStartedRunningOrFinished = "running";
+    addUniqueURLsToLinksArray(tempLinksArray);
+    numberOfPagesChecked = numberOfPagesChecked + 1;
+    var nextPageToCheck = linksArray[numberOfPagesChecked];
+    console.log("Sent next page to check :" + nextPageToCheck);
+    chrome.tabs.query({active: true}, function(tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {greeting: "StartTesting", testFor: lookFor, nextPage: nextPageToCheck}, function(response) {
+      });
+    });
+}
+
 
 function shouldTestFinish(){
       console.log("shouldTestFinish called");
@@ -138,7 +161,20 @@ function displayFinalResults(){
   displayArrayInConsoleLog(arrayOfPagesWithError);
   console.log("The number of pages tested is " + numberOfPagesChecked.toString())
   console.log("Number of pages with errors is " + arrayOfPagesWithError.length.toString());
+  var resultsHTML = convertArrayToHTML(arrayOfPagesWithError);
+  chrome.runtime.sendMessage({greeting: "display_results", HTMLtoDisplay: resultsHTML});
 }
+
+function convertArrayToHTML(_thisArray){
+    // caution: drop the "new Array" part or it won't work!
+    var printThis = "";
+    for(var i = 0; i < _thisArray.length; i++){
+    //   printThis += "<br><a href='" + _thisArray[i] + "' target='_blank'>" + _thisArray[i] + "</a>";
+    printThis += "<br>" + _thisArray[i];
+    }
+    return printThis; // <-- to be printed to the div
+}
+
 
 function resetExtension(){
   linksArray = [];

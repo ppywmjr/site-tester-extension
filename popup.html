@@ -1,9 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <script src="popup.js"></script>
-</head>
-<body style="width: 400px">
-
+<body style="width: 500px">
+  <form>
+    Domain to test:<br>
+    <input type="text" name="domainToTest" id="domainToTestID" value="testpage">
+    <br>
+    Term to look for (case sensitive):<br>
+    <input type="text" name="lookFor" id="lookForID" value="error">
+    <br>
+    Stop after this many pages tested:<br>
+    <input type="number" min="1" max="100000" name="maxNumberOfPagesToCheck" id="maxNumberOfPagesToCheck" value="200">
+  </form>
+    <br>
+    <button id="startButton">Start Test</button>
+    <script type="text/javascript" src="popup.js"></script>
+    <br>
+    <p>Errors Found:</p>
+    <div id="resultsDiv"></div>
 </body>
 </html>

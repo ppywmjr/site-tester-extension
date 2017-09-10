@@ -16,7 +16,9 @@ $( document ).ready(function() {
         testPage(response.testFor);
         if (response.nextPage != "Stop"){
         loadNextPage(response.nextPage);
-        }
+      } else {
+            chrome.runtime.sendMessage({greeting: "Should I test?", currentPageLinks: []});
+      }
       }
     });
 });

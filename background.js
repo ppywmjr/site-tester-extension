@@ -3,10 +3,10 @@ var linksArray = [];
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
 var maxNumberOfPagesToCheck;
-var lookFor; //= "error"
+var lookFor = ""; //= "error"
 var linksMustContain = "";
 var tempLinksArray = [];
-var currentPageURL;
+var currentPageURL = "";
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {

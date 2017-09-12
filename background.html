@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="background.js"></script>
+    <script type="text/javascript" src="popup.js"></script>
+</head>
+<html>
+<body style="width: 500px">
+  <form>
+    Start page (full URL including http):<br>
+    <input type="text" name="startURL" id="startURLID" value="file:///D:/SourceTree/chrome%20extensions/site%20tester/testpage1.html">
+    <br>
+    Links to skim:<br>
+    <input type="text" name="domainToTest" id="domainToTestID" value="testpage">
+    <br>
+    Error or term to look for (case sensitive):<br>
+    <input type="text" name="lookFor" id="lookForID" value="error">
+    <br>
+    Maximum number of URLs to skim:<br>
+    <input type="number" min="1" max="100000" name="maxNumberOfPagesToCheck" id="maxNumberOfPagesToCheck" value="6">
+  </form>
+    <br>
+    <button id="startButton">Start Test</button>
+    <br>
+    <p>Results found:</p>
+    <div id="resultsDiv"></div>
+</body>
+</html>

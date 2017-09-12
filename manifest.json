@@ -1,14 +1,15 @@
 {
-  "name": "Click Through Tester",
-  "version": "0.0.0.4",
-  "description": "This extension lists all of the links on a page and goes through them recursively. If any of the pages shows a yellow screen error, it opens a copy of the page in a new tab.",
+  "name": "Link Skimmer",
+  "version": "0.0.1.0",
+  "description": "Link skimmer is a testing and QA tool. It skims through the links on your site and tells you which urls show the error or terms you specifiy, eg '404', 'stack trace', or any term you wish to find. You can set criteria for the links and a limit to how many urls to check.",
   "permissions": [
-    "activeTab"
+    
+    "tabs"
   ],
   "web_accessible_resources": [
   ],
   "background": {
-    "scripts": ["background.js"],
+    "page": "background.html",
     "persistent": true
   },
   "content_scripts": [{
@@ -17,8 +18,7 @@
 }],
   "browser_action": {
       "default_title": "Click Through Tester",
-      "default_icon": "icon.png",
-      "default_popup": "popup.html"
+      "default_icon": "icon.png"
   },
   "icons" : {
     "128": "icon.png"

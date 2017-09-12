@@ -5,19 +5,19 @@
     <script type="text/javascript" src="popup.js"></script>
 </head>
 <html>
-<body style="width: 500px">
+<body>
   <form>
     Start page (full URL including http):<br>
-    <input type="text" name="startURL" id="startURLID" value="file:///D:/SourceTree/chrome%20extensions/site%20tester/testpage1.html">
+    <input type="text" name="startURL" id="startURLID" value="http://">
     <br>
     Links to skim:<br>
-    <input type="text" name="domainToTest" id="domainToTestID" value="testpage">
+    <input type="text" name="domainToTest" id="domainToTestID" value="">
     <br>
     Error or term to look for (case sensitive):<br>
     <input type="text" name="lookFor" id="lookForID" value="error">
     <br>
     Maximum number of URLs to skim:<br>
-    <input type="number" min="1" max="100000" name="maxNumberOfPagesToCheck" id="maxNumberOfPagesToCheck" value="6">
+    <input type="number" min="1" max="100000" name="maxNumberOfPagesToCheck" id="maxNumberOfPagesToCheck" value="100">
   </form>
     <br>
     <button id="startButton">Start Test</button>

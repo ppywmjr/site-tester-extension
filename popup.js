@@ -9,7 +9,11 @@ function startBackgroundJS(){
 
 
 $( document ).ready(function() {
-document.getElementById('startButton').addEventListener('click', startBackgroundJS);
+  document.getElementById('startButton').addEventListener('click', startBackgroundJS);
+  chrome.runtime.sendMessage({greeting: "What is currentPageURL"}, function(response){
+    document.getElementById('startURLID').value = response.startPageURL;
+    document.getElementById('domainToTestID').value = response.startPageURL;
+  });
 });
 
 chrome.runtime.onMessage.addListener(

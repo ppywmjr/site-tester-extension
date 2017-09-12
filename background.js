@@ -6,12 +6,16 @@ var maxNumberOfPagesToCheck;
 var lookFor; //= "error"
 var linksMustContain = "";
 var tempLinksArray = [];
+var currentPageURL;
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
           console.log("greeting = " + request.greeting);
           console.log("isTestNotStartedRunningOrFinished is:" + isTestNotStartedRunningOrFinished);
         switch (request.greeting){
+          case "What is currentPageURL":
+                  sendResponse({startPageURL: currentPageURL});
+                  break;
           case "Start":
                   var startURL = request.startURL;
                   lookFor = request.lookFor;
@@ -29,6 +33,7 @@ chrome.runtime.onMessage.addListener(
                   switch (isTestNotStartedRunningOrFinished){
                     case "notStarted":
                       sendResponse({shouldITest: "No"});
+                      currentPageURL = request.currentPageURL;
                       break;
                     case "finished":
                       sendResponse({shouldITest: "No"});
@@ -166,6 +171,7 @@ function displayFinalResults(){
   console.log("Number of pages with errors is " + arrayOfPagesWithError.length.toString());
   var resultsHTML = convertArrayToHTML(arrayOfPagesWithError);
   chrome.runtime.sendMessage({greeting: "display_results", HTMLtoDisplay: resultsHTML});
+  resetExtension();
 }
 
 function convertArrayToHTML(_thisArray){
@@ -177,7 +183,13 @@ function convertArrayToHTML(_thisArray){
 }
 
 function resetExtension(){
+  isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
   linksArray = [];
   arrayOfPagesWithError = [];
   numberOfPagesChecked = 0;
+  maxNumberOfPagesToCheck = 0;
+  lookFor = ""; //= "error"
+  linksMustContain = "";
+  tempLinksArray = [];
+  currentPageURL = "";
 }

@@ -3,26 +3,42 @@
     <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="background.js"></script>
     <script type="text/javascript" src="popup.js"></script>
+    <link rel="stylesheet" type="text/css" href="backgroundcss.css">
 </head>
 <html>
 <body>
-  <form>
-    Start page (full URL including http):<br>
-    <input type="text" name="startURL" id="startURLID" value="http://">
-    <br>
-    Links to skim:<br>
-    <input type="text" name="domainToTest" id="domainToTestID" value="">
-    <br>
-    Error or term to look for (case sensitive):<br>
-    <input type="text" name="lookFor" id="lookForID" value="error">
-    <br>
-    Maximum number of URLs to skim:<br>
-    <input type="number" min="1" max="100000" name="maxNumberOfPagesToCheck" id="maxNumberOfPagesToCheck" value="100">
-  </form>
+  <div class="extension_input_container">
+    <form class="form-style-7">
+    <ul>
+    <li>
+        <label for="name">Start page</label>
+        <input type="text" name="startURL" id="startURLID" value="http://" maxlength="300">
+        <span>Enter the full url including http(s)://</span>
+    </li>
+    <li>
+        <label for="email">Links to skim</label>
+        <input type="text" name="domainToTest" id="domainToTestID" value="" maxlength="300">
+        <span>Only links containing this text will be skimmed, eg select you whole domain</span>
+    </li>
+    <li>
+        <label for="url">Error or term to look for</label>
+        <input type="text" name="lookFor" id="lookForID" value="stack trace" maxlength="300">
+        <span>eg 404 or stack trace, this is case sensitive</span>
+    </li>
+    <li>
+        <label for="bio">Maximum number of URLs to skim</label>
+        <input type="number" min="1" max="100000" name="maxNumberOfPagesToCheck" id="maxNumberOfPagesToCheck" value="40">
+        <span>The skimmer will stop after this many pages, even if it finds more links</span>
+    </li>
+    </ul>
     <br>
     <button id="startButton">Start Test</button>
     <br>
-    <p>Results found:</p>
-    <div id="resultsDiv"></div>
+    </form>
+    <div id="resultsDiv" class="form-style-7">
+    </div>
+  </div>
+
+
 </body>
 </html>

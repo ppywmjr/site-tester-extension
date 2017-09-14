@@ -6,7 +6,8 @@ var maxNumberOfPagesToCheck;
 var lookFor = ""; //= "error"
 var linksMustContain = "";
 var tempLinksArray = [];
-var currentPageURL = "";
+var arrayOfLinksOnPages = [];
+var currentPageURL = "http://";
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
@@ -42,6 +43,7 @@ chrome.runtime.onMessage.addListener(
                       break;
                     case "running":
                     addUniqueURLsToLinksArray(tempLinksArray);
+                    recordLinksOnCurrentPage(request.currentPageURL, tempLinksArray);
                     numberOfPagesChecked = numberOfPagesChecked + 1;
                     if (numberOfPagesChecked >= linksArray.length){
                     var sentNextPage = "Stop";
@@ -71,29 +73,14 @@ chrome.runtime.onMessage.addListener(
 chrome.browserAction.onClicked.addListener(function(tab) {
     console.log("browser button clicked");
     chrome.tabs.create({'url': 'background.html'});
-    /*   isTestNotStartedRunningOrFinished = "running";
-    addUniqueURLsToLinksArray(tempLinksArray);
-    numberOfPagesChecked = numberOfPagesChecked + 1;
-    var nextPageToCheck = linksArray[numberOfPagesChecked];
-    console.log("Sent next page to check :" + nextPageToCheck);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {greeting: "StartTesting", testFor: lookFor, nextPage: nextPageToCheck}, function(response) {
-      });
-    });*/
 });
 
 
 function startTest(startURL) {
     console.log("start button clicked");
     isTestNotStartedRunningOrFinished = "running";
-  //  addUniqueURLsToLinksArray(tempLinksArray);
-  //  numberOfPagesChecked = numberOfPagesChecked + 1;
     console.log("Sent next page to check :" + startURL);
     chrome.tabs.create({'url': startURL});
-//    chrome.tabs.query({active: true}, function(tabs) {
-//    chrome.tabs.sendMessage(tabs[0].id, {greeting: "StartTesting", testFor: lookFor, nextPage: nextPageToCheck}, function(response) {
-//    });
-//    });
 }
 
 
@@ -175,9 +162,17 @@ function displayFinalResults(){
 }
 
 function convertArrayToHTML(_thisArray){
-    var printThis = "";
-    for(var i = 0; i < _thisArray.length; i++){
-    printThis += "<br>" + _thisArray[i];
+    var printThis;
+    var numberOfErrorsFound = _thisArray.length;
+    if (numberOfErrorsFound == 0){
+      printThis = "<h1>No matches found</h1>";
+      printThis += "<br>" + numberOfPagesChecked.toString() + " pages skimmed."
+
+    } else {
+      printThis = "<h1>Results found:</h1>";
+      for(var i = 0; i < _thisArray.length; i++){
+        printThis += "<a href='" + _thisArray[i] + "' target='_blank'>" + _thisArray[i] + "</a><br>";
+      }
     }
     return printThis;
 }
@@ -191,5 +186,38 @@ function resetExtension(){
   lookFor = ""; //= "error"
   linksMustContain = "";
   tempLinksArray = [];
-  currentPageURL = "";
+  currentPageURL = "http://";
+  closeTestTab();
+}
+
+function closeTestTab(){
+  chrome.tabs.getSelected(function(tab){
+      chrome.tabs.remove(tab.id, function(){});
+    });
+}
+
+function recordLinksOnCurrentPage(_thisPage, _thisLinksArray){
+    arrayOfLinksOnPages.push([_thisPage, _thisLinksArray]);
+}
+
+function doesThisPageLinkToThisURL(_thisURL, _thisPagesLinksArray){
+  var numberOfLinks = _thisPagesLinksArray.length;
+  for(var i = 0; i < numberOfLinks; i++){
+    if (_thisPagesLinksArray[i] == _thisURL){
+      return true;
+    }
+  }
+  return false;
+}
+
+function whichPagesHaveThisLink(_thisURL, _thisArrayOfLinksOnPages){
+  var numberOfPages = _thisArrayOfLinksOnPages.length;
+  var pagesThatHaveTheLink = [];
+  for(var i = 0; i < numberOfPages; i++){
+    var arrayOfPageAndItsLinks = _thisArrayOfLinksOnPages[i];
+    if (doesThisPageLinkToThisURL(_thisURL, arrayOfPageAndItsLinks[1])){
+      pagesThatHaveTheLink.push(arrayOfPageAndItsLinks[0]);
+    }
+  }
+  return pagesThatHaveTheLink;
 }

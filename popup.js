@@ -22,3 +22,34 @@ chrome.runtime.onMessage.addListener(
                       document.getElementById('resultsDiv').innerHTML = request.HTMLtoDisplay;
           }
 });
+
+/*
+THIS
+$("#hide").click(function(){
+    $("p").hide();
+});
+
+$("#show").click(function(){
+    $("p").show();
+});
+
+
+OR THIS
+var classname = document.getElementsByClassName("classname");
+
+var myFunction = function() {
+    var attribute = this.getAttribute("data-myattribute");
+    alert(attribute);
+};
+
+for (var i = 0; i < classname.length; i++) {
+    classname[i].addEventListener('click', myFunction, false);
+}
+
+OR EVEN
+$(".yourButtonClass").on('click', function(event){
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    //(... rest of your JS code)
+});
+*/

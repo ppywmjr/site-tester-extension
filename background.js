@@ -194,9 +194,9 @@ function resetExtension(){
 }
 
 function closeTestTab(){
-  chrome.tabs.getSelected(function(tab){
-      chrome.tabs.remove(tab.id, function(){});
-    });
+  //chrome.tabs.getSelected(function(tab){
+  //    chrome.tabs.remove(tab.id, function(){});
+  //  });
 }
 
 function recordLinksOnCurrentPage(_thisPage, _thisLinksArray){

@@ -27,6 +27,7 @@ chrome.runtime.onMessage.addListener(
                   startTest(startURL);
                   break;
           case "Should I test?":
+                  if (linksArray[numberOfPagesChecked] == request.currentPageURL){
                   tempLinksArray = request.currentPageLinks;
                   if(shouldTestFinish()){
                     isTestNotStartedRunningOrFinished = "finished";
@@ -54,6 +55,11 @@ chrome.runtime.onMessage.addListener(
                     console.log("Sent next page to check :" + sentNextPage);
                     sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
                   }
+                } else {
+                  console.log("not on the list");
+                  sendResponse({shouldITest: "No"});
+
+                }
 
             break;
           case "Sending error":
@@ -265,7 +271,7 @@ function notificationOfTestEnded(){
     var opt = {
       type: "basic",
       title: "Link Skimmer",
-      message: "Finised skimming your links",
+      message: "Finished skimming your links",
       iconUrl: "SiteSkimmer32.png"
     };
     chrome.notifications.create(opt);

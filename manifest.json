@@ -3,7 +3,7 @@
   "version": "0.0.1.0",
   "description": "Link skimmer is a testing and QA tool. It skims through the links on your site and tells you which urls show the error or terms you specifiy, eg '404', 'stack trace', or any term you wish to find. You can set criteria for the links and a limit to how many urls to check.",
   "permissions": [
-
+    "notifications", 
     "tabs"
   ],
   "web_accessible_resources": [

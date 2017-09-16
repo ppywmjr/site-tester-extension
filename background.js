@@ -161,6 +161,7 @@ function displayFinalResults(){
   var resultsHTML = convertErrorsAndTheirLinksArrayToHTML();
 //  var resultsHTML = convertArrayToHTML(arrayOfPagesWithError);
   chrome.runtime.sendMessage({greeting: "display_results", HTMLtoDisplay: resultsHTML});
+  notificationOfTestEnded();
   resetExtension();
 }
 
@@ -190,13 +191,13 @@ function resetExtension(){
   linksMustContain = "";
   tempLinksArray = [];
   currentPageURL = "http://";
-  closeTestTab();
+//  closeTestTab();
 }
 
 function closeTestTab(){
-  //chrome.tabs.getSelected(function(tab){
-  //    chrome.tabs.remove(tab.id, function(){});
-  //  });
+  chrome.tabs.getSelected(function(tab){
+      chrome.tabs.remove(tab.id, function(){});
+  });
 }
 
 function recordLinksOnCurrentPage(_thisPage, _thisLinksArray){
@@ -258,4 +259,15 @@ function convertErrorsAndTheirLinksArrayToHTML(){
   }
   printThis += "</ul>";
   return printThis;
+}
+
+function notificationOfTestEnded(){
+    var opt = {
+      type: "basic",
+      title: "Link Skimmer",
+      message: "Finised skimming your links",
+      iconUrl: "SiteSkimmer32.png"
+    };
+    chrome.notifications.create(opt);
+
 }

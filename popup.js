@@ -20,9 +20,17 @@ chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
           if (request.greeting == "display_results"){
                       document.getElementById('resultsDiv').innerHTML = request.HTMLtoDisplay;
+                      addHideEventListener();
           }
 });
 
+function addHideEventListener(){
+$(".errorPageLinksP").on('click', function(event){
+//    event.stopPropagation();
+//    event.stopImmediatePropagation();
+    this.hide();
+});
+}
 /*
 THIS
 $("#hide").click(function(){

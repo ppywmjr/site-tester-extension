@@ -8,6 +8,7 @@ var linksMustContain = "";
 var tempLinksArray = [];
 var arrayOfLinksOnPages = [];
 var currentPageURL = "http://";
+var errorsAndTheirLinksArray = [];
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
@@ -156,7 +157,9 @@ function displayFinalResults(){
   displayArrayInConsoleLog(arrayOfPagesWithError);
   console.log("The number of pages tested is " + numberOfPagesChecked.toString())
   console.log("Number of pages with errors is " + arrayOfPagesWithError.length.toString());
-  var resultsHTML = convertArrayToHTML(arrayOfPagesWithError);
+  matchErrorPagesWithPagesThatLinkToThem(arrayOfPagesWithError, arrayOfLinksOnPages);
+  var resultsHTML = convertErrorsAndTheirLinksArrayToHTML();
+//  var resultsHTML = convertArrayToHTML(arrayOfPagesWithError);
   chrome.runtime.sendMessage({greeting: "display_results", HTMLtoDisplay: resultsHTML});
   resetExtension();
 }
@@ -183,7 +186,7 @@ function resetExtension(){
   arrayOfPagesWithError = [];
   numberOfPagesChecked = 0;
   maxNumberOfPagesToCheck = 0;
-  lookFor = ""; //= "error"
+  lookFor = "";
   linksMustContain = "";
   tempLinksArray = [];
   currentPageURL = "http://";
@@ -220,4 +223,39 @@ function whichPagesHaveThisLink(_thisURL, _thisArrayOfLinksOnPages){
     }
   }
   return pagesThatHaveTheLink;
+}
+
+function matchErrorPagesWithPagesThatLinkToThem(_errorURLsArray , _thisArrayOfLinksOnPages){
+  var numberOfErrorsFound = arrayOfPagesWithError.length;
+  for (var i = 0; i < numberOfErrorsFound; i++){
+    var thisErrorURL = _errorURLsArray[i];
+    var isOnThesePages = whichPagesHaveThisLink(thisErrorURL, _thisArrayOfLinksOnPages);
+    errorsAndTheirLinksArray.push([thisErrorURL, isOnThesePages]);
+  }
+}
+
+function convertErrorsAndTheirLinksArrayToHTML(){
+  var printThis;
+  var numberOfErrorsFound = errorsAndTheirLinksArray.length;
+  if (numberOfErrorsFound == 0){
+    printThis = "<h1>No matches found</h1>";
+    printThis += "<br>" + numberOfPagesChecked.toString() + " pages skimmed."
+  } else {
+    printThis = "<h1>Results found:</h1><ul>";
+    for(var i = 0; i < numberOfErrorsFound; i++){
+      var thisErrorURLAndLinks = errorsAndTheirLinksArray[i];
+      var thisErrorURL = thisErrorURLAndLinks[0];
+      var itsLinks = thisErrorURLAndLinks[1];
+      var numberOfLinks = itsLinks.length;
+      printThis += "<li>Error link is: ";
+      printThis += "<a href='" + thisErrorURL + "' target='_blank'>" + thisErrorURL + "</a>";
+      printThis += "<br>Pages that link to it are:<br><p class='errorPageLinksP'>";
+      for (var j = 0; j < numberOfLinks; j++ ){
+        printThis += "<a href='" + itsLinks[j] + "' target='_blank'>" + itsLinks[j] + "</a><br>";
+      }
+      printThis += "</p></li>";
+    }
+  }
+  printThis += "</ul>";
+  return printThis;
 }

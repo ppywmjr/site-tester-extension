@@ -18,7 +18,7 @@
 }],
   "browser_action": {
       "default_title": "Link Skimmer",
-      "default_icon": "SiteSkimmer128border.png"
+      "default_icon": "SiteSkimmer32.png"
   },
   "icons" : {
     "128": "SiteSkimmer128border.png"

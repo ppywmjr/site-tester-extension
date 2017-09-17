@@ -55,10 +55,10 @@ function testPage(error){
 
 function loadNextPage(_nextPage){
   console.log("nextPage is: " + _nextPage);
-  location.assign( _nextPage );
+  window.location.assign( _nextPage );
   //location.href = _nextPage;
   console.log("passed location.assignn");
-  setTimeout(function(){location.reload()}, 1000);
+  setTimeout(function(){console.log("waited 1000")}, 1000);
   }
 
 function reportErrorToBackground(){
@@ -74,6 +74,12 @@ function addAllLinksToContentPageLinksArray(){
   contentPageLinksArray = [currentPageURL];
   $("a").each(function() {
     var _thisHref = this.href;
+    if (_thisHref.includes("#!") == false){
+      if (_thisHref.includes("#") ){
+
+          _thisHref = _thisHref.split("#")[0];
+        }
+      }
     contentPageLinksArray.push(_thisHref);
   });
 }

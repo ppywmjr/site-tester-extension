@@ -27,7 +27,6 @@ chrome.runtime.onMessage.addListener(
                   startTest(startURL);
                   break;
           case "Should I test?":
-                  if (linksArray[numberOfPagesChecked] == request.currentPageURL){
                   tempLinksArray = request.currentPageLinks;
                   if(shouldTestFinish()){
                     isTestNotStartedRunningOrFinished = "finished";
@@ -44,24 +43,27 @@ chrome.runtime.onMessage.addListener(
                       resetExtension();
                       break;
                     case "running":
-                    addUniqueURLsToLinksArray(tempLinksArray);
-                    recordLinksOnCurrentPage(request.currentPageURL, tempLinksArray);
-                    numberOfPagesChecked = numberOfPagesChecked + 1;
-                    if (numberOfPagesChecked >= linksArray.length){
-                    var sentNextPage = "Stop";
-                    } else {
-                      var sentNextPage = linksArray[numberOfPagesChecked];
+                      if (linksArray[numberOfPagesChecked] == request.currentPageURL){
+                        addUniqueURLsToLinksArray(tempLinksArray);
+                        recordLinksOnCurrentPage(request.currentPageURL, tempLinksArray);
+                        numberOfPagesChecked = numberOfPagesChecked + 1;
+                        if (numberOfPagesChecked >= linksArray.length){
+                          var sentNextPage = "Stop";
+                        }
+                        else {
+                          var sentNextPage = linksArray[numberOfPagesChecked];
+                        }
+
+                        console.log("Sent next page to check :" + sentNextPage);
+                        sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
+
+                      }
+                      else {
+                        console.log("not on the list");
+                        sendResponse({shouldITest: "No"});
+                      }
                     }
-                    console.log("Sent next page to check :" + sentNextPage);
-                    sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
-                  }
-                } else {
-                  console.log("not on the list");
-                  sendResponse({shouldITest: "No"});
-
-                }
-
-            break;
+                      break;
           case "Sending error":
             var errorPageToStore = linksArray[numberOfPagesChecked-1];
             console.log("Adding to arrayOfPagesWithError:" + request.errorPage);
@@ -73,7 +75,8 @@ chrome.runtime.onMessage.addListener(
               displayFinalResults();
               resetExtension();
             }
-          }
+
+        }
 
 });
 

@@ -1,5 +1,6 @@
-var contentPageLinksArray = [];
 var _currentPageURL = window.location.href;
+//var contentPageSet = new Set(_currentPageURL);
+var contentPageLinksArray = [_currentPageURL];
 
 $( document ).ready(function() {
     console.log( "Document ready!" );
@@ -70,8 +71,8 @@ function reportErrorToBackground(){
 
 function addAllLinksToContentPageLinksArray(){
   console.log("addAllLinksToContentPageLinksArray called");
-  var currentPageURL = window.location.href;
-  contentPageLinksArray = [currentPageURL];
+  //var currentPageURL = window.location.href;
+  //contentPageLinksArray = [currentPageURL];
   $("a").each(function() {
     var _thisHref = this.href;
     if (_thisHref.includes("#!") == false){
@@ -80,14 +81,7 @@ function addAllLinksToContentPageLinksArray(){
           _thisHref = _thisHref.split("#")[0];
         }
       }
+  //  contentPageSet.add(_thisHref);
     contentPageLinksArray.push(_thisHref);
   });
-}
-
-function displayArrayInConsoleLog( _thisArray ){
-  //console.log("displayArrayInConsoleLog called");
-  var thisArrayLength = _thisArray.length;
-  for (x = 0; x < thisArrayLength; x++) {
-    console.log( _thisArray[x] );
-  }
 }

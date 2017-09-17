@@ -1,14 +1,18 @@
 var isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
-var linksArray = [];
+//var linksArray = [];
+var linksSet = new Set();
 var arrayOfPagesWithError = [];
 var numberOfPagesChecked = 0;
 var maxNumberOfPagesToCheck;
 var lookFor = ""; //= "error"
 var linksMustContain = "";
 var tempLinksArray = [];
+//var tempLinksSet = new Set();
 var arrayOfLinksOnPages = [];
 var currentPageURL = "http://";
 var errorsAndTheirLinksArray = [];
+var sentNextPage;
+var lastSentPage;
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
@@ -20,10 +24,13 @@ chrome.runtime.onMessage.addListener(
                   break;
           case "Start":
                   var startURL = request.startURL;
+                  sentNextPage = startURL;
+                  lastSentPage = sentNextPage;
                   lookFor = request.lookFor;
                   linksMustContain = request.linksMustContain;
                   maxNumberOfPagesToCheck = request.maxNumberOfPagesToCheck;
-                  linksArray.push(startURL);
+                  //linksArray.push(startURL);
+                  linksSet.add(startURL);
                   startTest(startURL);
                   break;
           case "Should I test?":
@@ -43,15 +50,18 @@ chrome.runtime.onMessage.addListener(
                       resetExtension();
                       break;
                     case "running":
-                      if (linksArray[numberOfPagesChecked] == request.currentPageURL){
+                      if (sentNextPage == request.currentPageURL){
+                        //addUniqueURLsToLinksArray(tempLinksArray);
                         addUniqueURLsToLinksArray(tempLinksArray);
                         recordLinksOnCurrentPage(request.currentPageURL, tempLinksArray);
                         numberOfPagesChecked = numberOfPagesChecked + 1;
+                        var linksArray = [...linksSet];
                         if (numberOfPagesChecked >= linksArray.length){
-                          var sentNextPage = "Stop";
+                          sentNextPage = "Stop";
                         }
                         else {
-                          var sentNextPage = linksArray[numberOfPagesChecked];
+                          lastSentPage = sentNextPage;
+                          sentNextPage = linksArray[numberOfPagesChecked];
                         }
 
                         console.log("Sent next page to check :" + sentNextPage);
@@ -65,7 +75,8 @@ chrome.runtime.onMessage.addListener(
                     }
                       break;
           case "Sending error":
-            var errorPageToStore = linksArray[numberOfPagesChecked-1];
+          //  var errorPageToStore = linksArray[numberOfPagesChecked-1];
+            var errorPageToStore = lastSentPage;
             console.log("Adding to arrayOfPagesWithError:" + request.errorPage);
             arrayOfPagesWithError.push(errorPageToStore);
             console.log("arrayOfPagesWithError is now:");
@@ -102,9 +113,9 @@ function shouldTestFinish(){
     } else if (numberOfPagesChecked >= maxNumberOfPagesToCheck){
       console.log("return true");
         return true;
-    } else if (numberOfPagesChecked >= linksArray.length){
+    } else if (numberOfPagesChecked >= linksSet.size){
         addUniqueURLsToLinksArray(tempLinksArray);
-        if (numberOfPagesChecked >= linksArray.length){
+        if (numberOfPagesChecked >= linksSet.size){
           console.log("return true");
           return true;
         }
@@ -115,7 +126,11 @@ function shouldTestFinish(){
       return false;
 }
 }
-
+function addUniqueURLsToLinksArray(thisContentArray){
+  let thisContentSet = new Set(thisContentArray);
+  linksSet = linksSet.union(thisContentSet);
+}
+/*
 function addUniqueURLsToLinksArray(contentArray){
   console.log("addUniqueURLsToLinksArray called");
   var arrayLength = contentArray.length;
@@ -149,7 +164,7 @@ function hrefIsTheSame(link1, link2) {
     return false;
   }
 }
-
+*/
 function displayArrayInConsoleLog( _thisArray ){
   console.log("displayArrayInConsoleLog called");
   var thisArrayLength = _thisArray.length;
@@ -161,6 +176,7 @@ function displayArrayInConsoleLog( _thisArray ){
 function displayFinalResults(){
   console.log("displayFinalResults called");
   console.log("The linksArray is:");
+  linksArray = [...linksSet];
   displayArrayInConsoleLog(linksArray);
   console.log("error pages are:");
   displayArrayInConsoleLog(arrayOfPagesWithError);
@@ -201,12 +217,6 @@ function resetExtension(){
   tempLinksArray = [];
   currentPageURL = "http://";
 //  closeTestTab();
-}
-
-function closeTestTab(){
-  chrome.tabs.getSelected(function(tab){
-      chrome.tabs.remove(tab.id, function(){});
-  });
 }
 
 function recordLinksOnCurrentPage(_thisPage, _thisLinksArray){
@@ -279,4 +289,12 @@ function notificationOfTestEnded(){
     };
     chrome.notifications.create(opt);
 
+}
+
+Set.prototype.union = function(setB) {
+    var union = new Set(this);
+    for (var elem of setB) {
+        union.add(elem);
+    }
+    return union;
 }

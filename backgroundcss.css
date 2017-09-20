@@ -1,6 +1,8 @@
 <style type="text/css">
 
-
+a {
+    text-decoration: none;
+}
 
 .form-style-7 {
     max-width: 900px;
@@ -72,6 +74,7 @@
     font-size: 16px;
     padding: 0;
     font-family: Georgia, "Times New Roman", Times, serif;
+
 }
 .form-style-7 input[type="text"]:focus,
 .form-style-7 input[type="date"]:focus,
@@ -100,6 +103,10 @@
 }
 .form-style-7 textarea{
     resize:none;
+}
+.form-style-7 a
+{
+    color: #487dac;
 }
 button {
     margin: 20px;
@@ -160,10 +167,10 @@ button:hover{
 
 #github-link {
   display: inline;
-  vertical-align: bottom;
-  text-align: right;
-  padding: 0;
-  margin: 0 ;
+  vertical-align: top;
+  float: right;
+  padding: 10px;
+  margin: 0;
   color: #9cd6f5;
   font-size: 11px;
   text-decoration: none;

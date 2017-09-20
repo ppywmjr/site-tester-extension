@@ -69,7 +69,7 @@ chrome.runtime.onMessage.addListener(
                     case "running":
                       if (sentNextPage == request.currentPageURL){
                         //addUniqueURLsToLinksArray(tempLinksArray);
-                        tempLinksArray = removeLinksThatDontMeetRequirement(tempLinksArray, linksMustContain)
+                        tempLinksArray = removeLinksThatDontMeetRequirement(tempLinksArray, linksMustContain);
                         addUniqueURLsToLinksArray(tempLinksArray);
                         recordLinksOnCurrentPage(request.currentPageURL, tempLinksArray);
                         numberOfPagesChecked = numberOfPagesChecked + 1;

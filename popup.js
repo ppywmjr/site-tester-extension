@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener(
                       document.getElementById('resultsDiv').innerHTML = request.HTMLtoDisplay;
                       addHideEventListener();
                       $("#startButton").toggle();
-                      $("#stopButton").toggle();                  
+                      $("#stopButton").toggle();
           }
 });
 

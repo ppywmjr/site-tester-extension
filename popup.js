@@ -27,6 +27,12 @@ chrome.runtime.onMessage.addListener(
 function addHideEventListener(){
 //$("button").hide();
 $("h3").click(function(){
+
+//  $("p").html(test);
+//  $("p").click(function(){
+//  $(this).hide();
+//  });
+
   //  event.stopPropagation();
   //  event.stopImmediatePropagation();
     $(this).hide();

@@ -154,22 +154,22 @@ function displayFinalResults(){
   notificationOfTestEnded();
   resetExtension();
 }
-
+/*
 function convertArrayToHTML(_thisArray){
     var printThis;
+    printThis += numberOfPagesChecked.toString() + " pages skimmed."
     var numberOfErrorsFound = _thisArray.length;
     if (numberOfErrorsFound == 0){
       printThis = "<h1>No matches found</h1>";
-      printThis += "<br>" + numberOfPagesChecked.toString() + " pages skimmed."
     } else {
       printThis = "<h1>Results found:</h1>";
-      for(var i = 0; i < _thisArray.length; i++){
+      for(var i = 0; i < numberOfErrorsFound; i++){
         printThis += "<a href='" + _thisArray[i] + "' target='_blank'>" + _thisArray[i] + "</a><br>";
       }
     }
     return printThis;
 }
-
+*/
 function resetExtension(){
   isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
   linksArray = [];
@@ -224,22 +224,21 @@ function matchErrorPagesWithPagesThatLinkToThem(_errorURLsArray , _thisArrayOfLi
 }
 
 function convertErrorsAndTheirLinksArrayToHTML(){
-  var printThis;
-  var numberOfErrorsFound = errorsAndTheirLinksArray.length;
-  if (numberOfErrorsFound == 0){
-    printThis = "<h1>No matches found</h1>";
-    printThis += "<br>" + numberOfPagesChecked.toString() + " pages skimmed."
-  } else {
-    printThis = "<h1>Results found:</h1><ul>";
-    for(var i = 0; i < numberOfErrorsFound; i++){
-      var thisErrorURLAndLinks = errorsAndTheirLinksArray[i];
-      var thisErrorURL = thisErrorURLAndLinks[0];
-      var itsLinks = thisErrorURLAndLinks[1];
-      var numberOfLinks = itsLinks.length;
+  let printThis = "";
+  let numberOfErrorsFound = errorsAndTheirLinksArray.length;
+    printThis += numberOfPagesChecked.toString() + " pages skimmed."
+    printThis += "<br>" + numberOfErrorsFound.toString() + " results found."
+  if (numberOfErrorsFound > 0){
+    printThis += "<h1>Results found:</h1><ul>";
+    for(let i = 0; i < numberOfErrorsFound; i++){
+      let thisErrorURLAndLinks = errorsAndTheirLinksArray[i];
+      let thisErrorURL = thisErrorURLAndLinks[0];
+      let itsLinks = thisErrorURLAndLinks[1];
+      let numberOfLinks = itsLinks.length;
       printThis += "<li>Error link is: ";
       printThis += "<a href='" + thisErrorURL + "' target='_blank'>" + thisErrorURL + "</a>";
       printThis += "<br>Pages that link to it are:<br><p class='errorPageLinksP'>";
-      for (var j = 0; j < numberOfLinks; j++ ){
+      for (let j = 0; j < numberOfLinks; j++ ){
         printThis += "<a href='" + itsLinks[j] + "' target='_blank'>" + itsLinks[j] + "</a><br>";
       }
       printThis += "</p></li>";

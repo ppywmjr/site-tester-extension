@@ -1,12 +1,12 @@
 <style type="text/css">
 .extension_input_container{
-    width: 600px;
+    max-width: none;
     margin: auto;
     color: #797979;
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 .form-style-7{
-    width:600px;
+    max-width: 900px;
     margin:50px auto;
     background:#fff;
     border-radius:2px;
@@ -60,7 +60,8 @@
 .form-style-7 a
 {
     box-sizing: border-box;
-    width: 580px;
+    width: 100%;
+    margin: auto;
     color: #797979;
     display: block;
     outline: none;
@@ -112,4 +113,14 @@
     border-bottom: 3px solid #F3F3F3;
     color:#F3F3F3;
 }
+
+.errorPageLinksP span {
+    color: #C0C0C0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+.startHidden {
+  display: none;
+}
+
 </style>

@@ -96,7 +96,6 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.create({'url': 'background.html'});
 });
 
-
 function startTest(startURL) {
     console.log("start button clicked");
     isTestNotStartedRunningOrFinished = "running";
@@ -148,28 +147,12 @@ function displayFinalResults(){
   displayArrayInConsoleLog(arrayOfPagesWithError);
   console.log("The number of pages tested is " + numberOfPagesChecked.toString())
   console.log("Number of pages with errors is " + arrayOfPagesWithError.length.toString());
-  matchErrorPagesWithPagesThatLinkToThem(arrayOfPagesWithError, arrayOfLinksOnPages);
-  var resultsHTML = convertErrorsAndTheirLinksArrayToHTML();
+  errorsAndTheirLinksArray = matchErrorPagesWithPagesThatLinkToThem(arrayOfPagesWithError, arrayOfLinksOnPages, arrayOfPagesWithError, errorsAndTheirLinksArray );
+  var resultsHTML = convertErrorsAndTheirLinksArrayToHTML(errorsAndTheirLinksArray, numberOfPagesChecked);
   chrome.runtime.sendMessage({greeting: "display_results", HTMLtoDisplay: resultsHTML});
   notificationOfTestEnded();
   resetExtension();
 }
-/*
-function convertArrayToHTML(_thisArray){
-    var printThis;
-    printThis += numberOfPagesChecked.toString() + " pages skimmed."
-    var numberOfErrorsFound = _thisArray.length;
-    if (numberOfErrorsFound == 0){
-      printThis = "<h1>No matches found</h1>";
-    } else {
-      printThis = "<h1>Results found:</h1>";
-      for(var i = 0; i < numberOfErrorsFound; i++){
-        printThis += "<a href='" + _thisArray[i] + "' target='_blank'>" + _thisArray[i] + "</a><br>";
-      }
-    }
-    return printThis;
-}
-*/
 function resetExtension(){
   isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
   linksArray = [];
@@ -191,63 +174,6 @@ function resetExtension(){
 function recordLinksOnCurrentPage(_thisPage, _thisLinksArray){
     arrayOfLinksOnPages.push([_thisPage, _thisLinksArray]);
 }
-
-function doesThisPageLinkToThisURL(_thisURL, _thisPagesLinksArray){
-  var numberOfLinks = _thisPagesLinksArray.length;
-  for(var i = 0; i < numberOfLinks; i++){
-    if (_thisPagesLinksArray[i] == _thisURL){
-      return true;
-    }
-  }
-  return false;
-}
-
-function whichPagesHaveThisLink(_thisURL, _thisArrayOfLinksOnPages){
-  var numberOfPages = _thisArrayOfLinksOnPages.length;
-  var pagesThatHaveTheLink = [];
-  for(var i = 0; i < numberOfPages; i++){
-    var arrayOfPageAndItsLinks = _thisArrayOfLinksOnPages[i];
-    if (doesThisPageLinkToThisURL(_thisURL, arrayOfPageAndItsLinks[1])){
-      pagesThatHaveTheLink.push(arrayOfPageAndItsLinks[0]);
-    }
-  }
-  return pagesThatHaveTheLink;
-}
-
-function matchErrorPagesWithPagesThatLinkToThem(_errorURLsArray , _thisArrayOfLinksOnPages){
-  var numberOfErrorsFound = arrayOfPagesWithError.length;
-  for (var i = 0; i < numberOfErrorsFound; i++){
-    var thisErrorURL = _errorURLsArray[i];
-    var isOnThesePages = whichPagesHaveThisLink(thisErrorURL, _thisArrayOfLinksOnPages);
-    errorsAndTheirLinksArray.push([thisErrorURL, isOnThesePages]);
-  }
-}
-
-function convertErrorsAndTheirLinksArrayToHTML(){
-  let printThis = "";
-  let numberOfErrorsFound = errorsAndTheirLinksArray.length;
-    printThis += numberOfPagesChecked.toString() + " pages skimmed."
-    printThis += "<br>" + numberOfErrorsFound.toString() + " results found."
-  if (numberOfErrorsFound > 0){
-    printThis += "<h1>Results found:</h1><ul>";
-    for(let i = 0; i < numberOfErrorsFound; i++){
-      let thisErrorURLAndLinks = errorsAndTheirLinksArray[i];
-      let thisErrorURL = thisErrorURLAndLinks[0];
-      let itsLinks = thisErrorURLAndLinks[1];
-      let numberOfLinks = itsLinks.length;
-      printThis += "<li>Error link is: ";
-      printThis += "<a href='" + thisErrorURL + "' target='_blank'>" + thisErrorURL + "</a>";
-      printThis += "<br>Pages that link to it are:<br><p class='errorPageLinksP'>";
-      for (let j = 0; j < numberOfLinks; j++ ){
-        printThis += "<a href='" + itsLinks[j] + "' target='_blank'>" + itsLinks[j] + "</a><br>";
-      }
-      printThis += "</p></li>";
-    }
-  }
-  printThis += "</ul>";
-  return printThis;
-}
-
 function notificationOfTestEnded(){
     var opt = {
       type: "basic",

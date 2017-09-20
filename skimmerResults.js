@@ -33,16 +33,17 @@ function matchErrorPagesWithPagesThatLinkToThem(_errorURLsArray , _thisArrayOfLi
 function convertErrorsAndTheirLinksArrayToHTML(_errorsAndTheirLinksArray, _numberOfPagesChecked){
   let printThis = "";
   let numberOfErrorsFound = _errorsAndTheirLinksArray.length;
-    printThis += _numberOfPagesChecked.toString() + " pages skimmed."
-    printThis += "<br>" + numberOfErrorsFound.toString() + " results found."
   if (numberOfErrorsFound > 0){
     printThis += "<h1>Results found:</h1><ul>";
+    printThis += "<li>" + _numberOfPagesChecked.toString() + " pages skimmed.";
+    printThis += "<br>" + numberOfErrorsFound.toString() + " results found.</li>";
+
     for(let i = 0; i < numberOfErrorsFound; i++){
       let thisErrorURLAndLinks = _errorsAndTheirLinksArray[i];
       let thisErrorURL = thisErrorURLAndLinks[0];
       let itsLinks = thisErrorURLAndLinks[1];
       let numberOfLinks = itsLinks.length;
-      printThis += "<li>Error link is: ";
+      printThis += "<li>";
       printThis += "<a href='" + thisErrorURL + "' target='_blank'>" + thisErrorURL + "</a>";
       printThis += "<div class='errorPageLinksP'><span name='downArrow' class='startHidden toggleArrow' >&#9660; Pages that link to it are:</span></span><span class='toggleArrow'>&#9650; details</span>	<div class='startHidden'><br>";
       for (let j = 0; j < numberOfLinks; j++ ){
@@ -50,6 +51,9 @@ function convertErrorsAndTheirLinksArrayToHTML(_errorsAndTheirLinksArray, _numbe
       }
       printThis += "</div></div></li>";
     }
+  } else {
+    printThis += "<h1>No results found:</h1><ul>";
+    printThis += "<li>" + _numberOfPagesChecked.toString() + " pages skimmed.</li></ul>";
   }
   printThis += "</ul>";
   return printThis;

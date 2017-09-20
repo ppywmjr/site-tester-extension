@@ -1,13 +1,10 @@
 <style type="text/css">
-.extension_input_container{
-    max-width: none;
-    margin: auto;
-    color: #797979;
-    font-family: Georgia, "Times New Roman", Times, serif;
-}
-.form-style-7{
+
+
+
+.form-style-7 {
     max-width: 900px;
-    margin:50px auto;
+    margin:10px auto;
     background:#fff;
     border-radius:2px;
     padding:20px;
@@ -23,7 +20,8 @@
 }
 .form-style-7 ul{
     list-style:none;
-    padding:0;
+    padding: 0;
+    padding-top: 10px;
     margin:0;
 }
 .form-style-7 li{
@@ -32,6 +30,9 @@
     border:1px solid #DDDDDD;
     margin-bottom: 30px;
     border-radius: 3px;
+    font-size: 16px;
+    color: #5C5C5C;
+    font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .form-style-7 li > label{
@@ -98,8 +99,8 @@
 .form-style-7 textarea{
     resize:none;
 }
-.form-style-7 input[type="submit"],
-.form-style-7 button {
+button {
+    margin: 20px;
     background: #F3F3F3;
     border: none;
     padding: 10px 20px 10px 20px;
@@ -107,8 +108,7 @@
     border-radius: 3px;
     color: #797979;
 }
-.form-style-7 input[type="submit"]:hover,
-.form-style-7 button:hover{
+button:hover{
     background: #797979;
     border-bottom: 3px solid #F3F3F3;
     color:#F3F3F3;
@@ -119,8 +119,21 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
 }
+
 .startHidden {
   display: none;
 }
-
+#stopButton {
+  float: right;
+}
+#startButton {
+  float: left;
+}
+#extension-input-container {
+    overflow: hidden;
+    max-width: 900px;
+    margin: auto;
+}
+#extension-input-container div{
+    overflow: auto;
 </style>

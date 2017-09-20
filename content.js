@@ -43,14 +43,10 @@ $( document ).ready(function() {
 }
 
 function testPage(error){
-  console.log("testPage called")
   var isError = $( "*:contains('" + error + "')" ).length;
-  console.log("Number of errors on page is " + isError.toString());
   if (isError > 0){
-      console.log("error found")
       reportErrorToBackground();
   }else {
-      console.log("error NOT found")
   }
 }
 
@@ -62,24 +58,18 @@ $.expr[":"].contains = $.expr.createPseudo(function(arg) {
 
 
 function loadNextPage(_nextPage){
-  console.log("nextPage is: " + _nextPage);
   window.location.assign( _nextPage );
-  //location.href = _nextPage;
   console.log("passed location.assignn");
   setTimeout(function(){console.log("waited 1000")}, 1000);
   }
 
 function reportErrorToBackground(){
-  var currentPageURL = window.location.href;
-  console.log("window.location.href is: " + currentPageURL);
-  //setTimeout(function(){console.log("waiting")}, 10000);
-  chrome.runtime.sendMessage({errorPage: currentPageURL, greeting: "Sending error"}, function(response){});
+  let currentPageURL = window.location.href;
+  chrome.runtime.sendMessage({errorPage: currentPageURL, greeting: "Sending error"});
 }
 
 function addAllLinksToContentPageLinksArray(){
   console.log("addAllLinksToContentPageLinksArray called");
-  //var currentPageURL = window.location.href;
-  //contentPageLinksArray = [currentPageURL];
   $("a").each(function() {
     var _thisHref = this.href;
     if (_thisHref.includes("#!") == false){
@@ -87,7 +77,6 @@ function addAllLinksToContentPageLinksArray(){
           _thisHref = _thisHref.split("#")[0];
         }
       }
-  //  contentPageSet.add(_thisHref);
     contentPageLinksArray.push(_thisHref);
   });
 }

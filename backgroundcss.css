@@ -157,4 +157,19 @@ button:hover{
   border-radius: 50%;
   vertical-align: middle;
 }
+
+#github-link {
+  display: inline;
+  vertical-align: bottom;
+  text-align: right;
+  padding: 0;
+  margin: 0 ;
+  color: #9cd6f5;
+  font-size: 11px;
+  text-decoration: none;
+}
+#github-link:hover {
+  color: #588dbc;
+}
+
 </style>

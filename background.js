@@ -45,7 +45,6 @@ chrome.runtime.onMessage.addListener(
                   lookFor = request.lookFor;
                   linksMustContain = request.linksMustContain;
                   maxNumberOfPagesToCheck = request.maxNumberOfPagesToCheck;
-                  //linksArray.push(startURL);
                   linksSet.add(startURL);
                   startTest(startURL);
                   break;
@@ -151,21 +150,7 @@ function displayFinalResults(){
   resetExtension();
   notificationOfTestEnded();
 }
-function resetExtension(){
-  errorsAndTheirLinksArray = [];
-  isTestNotStartedRunningOrFinished = "notStarted";
-  linksArray = [];
-  arrayOfPagesWithError = [];
-  numberOfPagesChecked = 0;
-  maxNumberOfPagesToCheck = 0;
-  lookFor = "";
-  linksMustContain = "";
-  tempLinksArray = [];
-  currentPageURL = "http://";
-  arrayOfLinksOnPages = [];
-  sentNextPage = "";
-  lastSentPage = "";
-}
+
 
 function recordLinksOnCurrentPage(_thisPage, _thisLinksArray){
     arrayOfLinksOnPages.push([_thisPage, _thisLinksArray]);

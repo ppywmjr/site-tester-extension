@@ -52,6 +52,7 @@ chrome.runtime.onMessage.addListener(
                     case "running":
                       if (sentNextPage == request.currentPageURL){
                         //addUniqueURLsToLinksArray(tempLinksArray);
+                        tempLinksArray = removeLinksThatDontMeetRequirement(tempLinksArray, linksMustContain)
                         addUniqueURLsToLinksArray(tempLinksArray);
                         recordLinksOnCurrentPage(request.currentPageURL, tempLinksArray);
                         numberOfPagesChecked = numberOfPagesChecked + 1;
@@ -125,6 +126,16 @@ function shouldTestFinish(){
       return false;
 }
 }
+
+function removeLinksThatDontMeetRequirement(_contentArray, _linksMustContain){
+    let reducedLinksArray = _contentArray.filter(function(elem){
+    	if (elem.includes(_linksMustContain) == true){
+      	return elem;
+    	}
+    });
+      return reducedLinksArray;
+}
+
 function addUniqueURLsToLinksArray(thisContentArray){
   let thisContentSet = new Set(thisContentArray);
   linksSet = linksSet.union(thisContentSet);

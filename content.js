@@ -54,6 +54,13 @@ function testPage(error){
   }
 }
 
+$.expr[":"].contains = $.expr.createPseudo(function(arg) {
+  return function( elem ) {
+   return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+  };
+});
+
+
 function loadNextPage(_nextPage){
   console.log("nextPage is: " + _nextPage);
   window.location.assign( _nextPage );
@@ -77,7 +84,6 @@ function addAllLinksToContentPageLinksArray(){
     var _thisHref = this.href;
     if (_thisHref.includes("#!") == false){
       if (_thisHref.includes("#") ){
-
           _thisHref = _thisHref.split("#")[0];
         }
       }

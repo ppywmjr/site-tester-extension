@@ -130,41 +130,7 @@ function addUniqueURLsToLinksArray(thisContentArray){
   let thisContentSet = new Set(thisContentArray);
   linksSet = linksSet.union(thisContentSet);
 }
-/*
-function addUniqueURLsToLinksArray(contentArray){
-  console.log("addUniqueURLsToLinksArray called");
-  var arrayLength = contentArray.length;
-  //console.log("Content page links array length is " + arrayLength.toString())
-  for (x = 0; x < arrayLength; x++) {
-  var _thisHref = contentArray[x];
-  //console.log(_thisHref);
-    if (_thisHref.includes(linksMustContain)){
-      ifLinkIsUniqueAppendItToArray(_thisHref, linksArray);
-    }
-  }
-  console.log("linksArray is now:")
-  displayArrayInConsoleLog(linksArray);
-}
 
-function ifLinkIsUniqueAppendItToArray(thisLink, thisLinksArray) {
-  console.log("ifLinkIsUniqueAppendItToArray called");
-  var arrayLength = thisLinksArray.length;
-  for (y = 0; y < arrayLength; y++) {
-    if (hrefIsTheSame(thisLink, thisLinksArray[y])) {
-      return;
-    }
-  }
-  linksArray.push(thisLink);
-}
-
-function hrefIsTheSame(link1, link2) {
-  if (link1 == link2) {
-    return true;
-  } else {
-    return false;
-  }
-}
-*/
 function displayArrayInConsoleLog( _thisArray ){
   console.log("displayArrayInConsoleLog called");
   var thisArrayLength = _thisArray.length;
@@ -184,7 +150,6 @@ function displayFinalResults(){
   console.log("Number of pages with errors is " + arrayOfPagesWithError.length.toString());
   matchErrorPagesWithPagesThatLinkToThem(arrayOfPagesWithError, arrayOfLinksOnPages);
   var resultsHTML = convertErrorsAndTheirLinksArrayToHTML();
-//  var resultsHTML = convertArrayToHTML(arrayOfPagesWithError);
   chrome.runtime.sendMessage({greeting: "display_results", HTMLtoDisplay: resultsHTML});
   notificationOfTestEnded();
   resetExtension();
@@ -196,7 +161,6 @@ function convertArrayToHTML(_thisArray){
     if (numberOfErrorsFound == 0){
       printThis = "<h1>No matches found</h1>";
       printThis += "<br>" + numberOfPagesChecked.toString() + " pages skimmed."
-
     } else {
       printThis = "<h1>Results found:</h1>";
       for(var i = 0; i < _thisArray.length; i++){
@@ -209,14 +173,19 @@ function convertArrayToHTML(_thisArray){
 function resetExtension(){
   isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
   linksArray = [];
+  linksSet.clear();
   arrayOfPagesWithError = [];
   numberOfPagesChecked = 0;
   maxNumberOfPagesToCheck = 0;
   lookFor = "";
   linksMustContain = "";
   tempLinksArray = [];
+  tempLinksSet.clear();
   currentPageURL = "http://";
-//  closeTestTab();
+  arrayOfLinksOnPages = [];
+  errorsAndTheirLinksArray = [];
+  sentNextPage = "";
+  lastSentPage = "";
 }
 
 function recordLinksOnCurrentPage(_thisPage, _thisLinksArray){

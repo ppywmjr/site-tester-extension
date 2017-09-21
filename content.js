@@ -1,6 +1,6 @@
 var _currentPageURL = window.location.href;
-//var contentPageSet = new Set(_currentPageURL);
-var contentPageLinksArray = [_currentPageURL];
+
+var contentPageLinksArray = [];
 
 $( document ).ready(function() {
     console.log( "Document ready!" );

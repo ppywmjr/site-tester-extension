@@ -11,10 +11,13 @@ var currentPageURL = "http://";
 var errorsAndTheirLinksArray = [];
 var sentNextPage;
 var lastSentPage;
+var testTabID;
 
 function resetExtension(){
   isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
   linksSet.clear();
+//  chrome.tabs.remove([testTabID]);
+  chrome.tabs.remove([testTabID], function() { });
   arrayOfPagesWithError = [];
   numberOfPagesChecked = 0;
   maxNumberOfPagesToCheck = 0;
@@ -29,6 +32,7 @@ function resetExtension(){
   lastSentPage = "";
   request = null;
   response =null;
+  testTabID = null;
 }
 
 
@@ -50,6 +54,8 @@ chrome.runtime.onMessage.addListener(
                   break;
           case "Stop":
                   isTestNotStartedRunningOrFinished = "finished";
+                  displayFinalResults();
+                  resetExtension();
                   break;
           case "Should I test?":
                   tempLinksArray = request.currentPageLinks;
@@ -67,8 +73,12 @@ chrome.runtime.onMessage.addListener(
                       resetExtension();
                       break;
                     case "running":
-                      if (sentNextPage == request.currentPageURL){
-                        //addUniqueURLsToLinksArray(tempLinksArray);
+                      if (numberOfPagesChecked == 0) {
+                        testTabID = sender.tab.id;
+                        console.log(testTabID);
+                        console.log(sender.tab.id)
+                      }
+                      if (testTabID == sender.tab.id){
                         tempLinksArray = removeLinksThatDontMeetRequirement(tempLinksArray, linksMustContain);
                         addUniqueURLsToLinksArray(tempLinksArray);
                         recordLinksOnCurrentPage(request.currentPageURL, tempLinksArray);

@@ -29,7 +29,7 @@ a {
 .form-style-7 li{
     display: block;
     padding: 9px;
-    border:1px solid #9cd6f5;
+    border:1px solid #7cb6e5;
     margin-bottom: 30px;
     border-radius: 3px;
     font-size: 16px;
@@ -44,7 +44,7 @@ a {
     background: #FFFFFF;
     height: 14px;
     padding: 2px 5px 2px 5px;
-    color: #9cd6f5;
+    color: #7cb6e5;
     font-size: 14px;
     overflow: hidden;
     font-family: Arial, Helvetica, sans-serif;
@@ -92,7 +92,7 @@ a {
       font-family: Georgia, "Times New Roman", Times, serif;
 }
 .form-style-7 li > span{
-    background: #d6f1ff;
+    background: #c6e1ff;
     display: block;
     padding: 3px;
     margin: 0 -9px -9px -9px;
@@ -110,7 +110,7 @@ a {
 }
 button {
     margin: 20px;
-    background: #d6f1ff;
+    background: #c6e1ff;
     border: none;
     padding: 10px 20px 10px 20px;
     border-bottom: 3px solid #588dbc;
@@ -119,12 +119,12 @@ button {
 }
 button:hover{
     background: #588dbc;
-    border-bottom: 3px solid #d6f1ff;
-    color:#d6f1ff;
+    border-bottom: 3px solid #c6e1ff;
+    color:#c6e1ff;
 }
 
 .errorPageLinksP span {
-    color: #9cd6f5;
+    color: #7cb6e5;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
 }
@@ -171,7 +171,7 @@ button:hover{
   float: right;
   padding: 10px;
   margin: 0;
-  color: #9cd6f5;
+  color: #7cb6e5;
   font-size: 11px;
   text-decoration: none;
 }

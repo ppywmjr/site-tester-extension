@@ -12,6 +12,8 @@ var errorsAndTheirLinksArray = [];
 var sentNextPage;
 var lastSentPage;
 var testTabID;
+var autoContinue;
+var isTestContinueBeingForced = false;
 
 function resetExtension(){
   isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
@@ -30,9 +32,8 @@ function resetExtension(){
   errorsAndTheirLinksArray = [];
   sentNextPage = "";
   lastSentPage = "";
-  request = null;
-  response =null;
   testTabID = null;
+  clearTimeout(autoContinue);
 }
 
 
@@ -75,8 +76,10 @@ chrome.runtime.onMessage.addListener(
                     case "running":
                       if (numberOfPagesChecked == 0) {
                         testTabID = sender.tab.id;
-                        console.log(testTabID);
-                        console.log(sender.tab.id)
+                      }
+                      if (isTestContinueBeingForced){
+                        testTabID = sender.tab.id;
+                        isTestContinueBeingForced = false;
                       }
                       if (testTabID == sender.tab.id){
                         tempLinksArray = removeLinksThatDontMeetRequirement(tempLinksArray, linksMustContain);
@@ -92,7 +95,8 @@ chrome.runtime.onMessage.addListener(
                           sentNextPage = linksArray[numberOfPagesChecked];
                         }
                         sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
-
+                        clearTimeout(autoContinue);
+                        autoContinue = setTimeout(autoContinueTest, 3000);
                       }
                       else {
                         sendResponse({shouldITest: "No"});
@@ -111,6 +115,20 @@ chrome.runtime.onMessage.addListener(
         }
 
 });
+
+function autoContinueTest(){
+  let linksArray = [...linksSet];
+  let continueURL = linksArray[numberOfPagesChecked];
+  if (continueURL != null){
+    isTestContinueBeingForced = false;
+    chrome.tabs.remove([testTabID], function() { });
+    chrome.tabs.create({'url': continueURL});
+  } else {
+    displayFinalResults();
+    resetExtension();
+  }
+}
+
 
 chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.tabs.create({'url': 'background.html'});
@@ -155,7 +173,7 @@ function addUniqueURLsToLinksArray(thisContentArray){
 function displayFinalResults(){
   //linksArray = [...linksSet];
   errorsAndTheirLinksArray = matchErrorPagesWithPagesThatLinkToThem(arrayOfPagesWithError, arrayOfLinksOnPages, arrayOfPagesWithError, errorsAndTheirLinksArray );
-  var resultsHTML = convertErrorsAndTheirLinksArrayToHTML(errorsAndTheirLinksArray, numberOfPagesChecked);
+  var resultsHTML = convertErrorsAndTheirLinksArrayToHTML(errorsAndTheirLinksArray, numberOfPagesChecked, linksSet);
   chrome.runtime.sendMessage({greeting: "display_results", HTMLtoDisplay: resultsHTML});
   resetExtension();
   notificationOfTestEnded();

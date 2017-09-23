@@ -46,9 +46,19 @@ function testPage(error){
   var isError = $( "*:contains('" + error + "')" ).length;
   if (isError > 0){
       reportErrorToBackground();
-  }else {
   }
 }
+/*
+function testPageFromArray(_errorArray){
+  for(let i = 0; i < _errorArray.length; i++){
+    let isError1 = $( "*:contains('" + error + "')" ).length;
+    if (isError > 0){
+        reportErrorToBackground();
+        break;
+    }
+  }
+}
+*/
 
 $.expr[":"].contains = $.expr.createPseudo(function(arg) {
   return function( elem ) {

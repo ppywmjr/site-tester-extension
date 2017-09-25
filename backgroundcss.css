@@ -17,7 +17,7 @@ a {
     text-align: center;
     padding: 0;
     margin: 0px 0px 20px 0px;
-    color: #588dbc;
+    color: #185dac;
     font-size:x-large;
 }
 .form-style-7 ul{
@@ -65,7 +65,7 @@ a {
     box-sizing: border-box;
     width: 100%;
     margin: auto;
-    color: #588dbc;
+    color: #185dac;
     display: block;
     outline: none;
     border: none;
@@ -106,7 +106,13 @@ a {
 }
 .form-style-7 a
 {
-    color: #487dac;
+    color: #185dac;
+    text-decoration: none;
+}
+.form-style-7 a:hover
+{
+    color: #102d8c;
+
 }
 button {
     margin: 20px;
@@ -155,7 +161,7 @@ button:hover{
     text-align: left;
     padding: 0;
     margin: 0px 0px 20px 0px;
-    color: #588dbc;
+    color: #185dac;
     font-size:x-large;
 }
 .main-header img{

@@ -18,15 +18,17 @@ var isTestContinueBeingForced = false;
 function resetExtension(){
   isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
   linksSet.clear();
-//  chrome.tabs.remove([testTabID]);
+try {
   chrome.tabs.remove([testTabID], function() { });
+}
+catch(err) {
+}
   arrayOfPagesWithError = [];
   numberOfPagesChecked = 0;
   maxNumberOfPagesToCheck = 0;
   lookFor = "";
   linksMustContain = "";
   tempLinksArray = [];
-//  tempLinksSet.clear();
   arrayOfLinksOnPages = [];
   currentPageURL = "http://";
   errorsAndTheirLinksArray = [];
@@ -96,7 +98,7 @@ chrome.runtime.onMessage.addListener(
                         }
                         sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
                         clearTimeout(autoContinue);
-                        autoContinue = setTimeout(autoContinueTest, 3000);
+                        autoContinue = setTimeout(autoContinueTest, 6000);
                       }
                       else {
                         sendResponse({shouldITest: "No"});
@@ -119,9 +121,11 @@ chrome.runtime.onMessage.addListener(
 function autoContinueTest(){
   let linksArray = [...linksSet];
   let continueURL = linksArray[numberOfPagesChecked];
+  numberOfPagesChecked += 1;
   if (continueURL != null){
-    isTestContinueBeingForced = false;
-    chrome.tabs.remove([testTabID], function() { });
+    isTestContinueBeingForced = true;
+    try {    chrome.tabs.remove([testTabID], function() { });
+  } catch(err) {}
     chrome.tabs.create({'url': continueURL});
   } else {
     displayFinalResults();

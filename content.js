@@ -2,6 +2,14 @@ var _currentPageURL = window.location.href;
 
 var contentPageLinksArray = [];
 
+//option 1 to try
+//document.addEventListener("DOMContentLoaded", ready);
+//function ready (){
+
+//option 2 to try
+//window.onload = function() { //this wil be much slower but will allow the page to load
+
+//option 3 as implemented already
 $( document ).ready(function() {
     console.log( "Document ready!" );
     addAllLinksToContentPageLinksArray();

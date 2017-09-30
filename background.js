@@ -1,19 +1,19 @@
-var isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
-var linksSet = new Set();
-var arrayOfPagesWithError = [];
-var numberOfPagesChecked = 0;
-var maxNumberOfPagesToCheck;
-var lookFor = ""; //= "error"
-var linksMustContain = "";
-var tempLinksArray = [];
-var arrayOfLinksOnPages = [];
-var currentPageURL = "http://";
-var errorsAndTheirLinksArray = [];
-var sentNextPage;
-var lastSentPage;
-var testTabID;
-var autoContinue;
-var isTestContinueBeingForced = false;
+let isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
+let linksSet = new Set();
+let arrayOfPagesWithError = [];
+let numberOfPagesChecked = 0;
+let maxNumberOfPagesToCheck = 10;
+let lookFor = ""; //= "error"
+let linksMustContain = "";
+let tempLinksArray = [];
+let arrayOfLinksOnPages = [];
+let currentPageURL = "http://";
+let errorsAndTheirLinksArray = [];
+let sentNextPage = "";
+let lastSentPage = "";
+let testTabID = "";
+let autoContinue = "";
+let isTestContinueBeingForced = false;
 
 function resetExtension(){
   isTestNotStartedRunningOrFinished = "notStarted"; //notStarted running or finished
@@ -46,7 +46,7 @@ chrome.runtime.onMessage.addListener(
                   sendResponse({startPageURL: currentPageURL});
                   break;
           case "Start":
-                  var startURL = request.startURL;
+                  let startURL = request.startURL;
                   sentNextPage = startURL;
                   lastSentPage = sentNextPage;
                   lookFor = request.lookFor;
@@ -76,19 +76,19 @@ chrome.runtime.onMessage.addListener(
                       resetExtension();
                       break;
                     case "running":
-                      if (numberOfPagesChecked == 0) {
+                      if (numberOfPagesChecked === 0) {
                         testTabID = sender.tab.id;
                       }
                       if (isTestContinueBeingForced){
                         testTabID = sender.tab.id;
                         isTestContinueBeingForced = false;
                       }
-                      if (testTabID == sender.tab.id){
+                      if (testTabID === sender.tab.id){
                         tempLinksArray = removeLinksThatDontMeetRequirement(tempLinksArray, linksMustContain);
                         addUniqueURLsToLinksArray(tempLinksArray);
                         recordLinksOnCurrentPage(request.currentPageURL, tempLinksArray);
                         numberOfPagesChecked = numberOfPagesChecked + 1;
-                        var linksArray = [...linksSet];
+                        let linksArray = [...linksSet];
                         if (numberOfPagesChecked >= linksArray.length){
                           sentNextPage = "Stop";
                         }
@@ -106,10 +106,9 @@ chrome.runtime.onMessage.addListener(
                     }
                       break;
           case "Sending error":
-            var errorPageToStore = lastSentPage;
-            arrayOfPagesWithError.push(errorPageToStore);
+            arrayOfPagesWithError.push(lastSentPage);
             //sendResponse("Error Stored");
-            if (isTestNotStartedRunningOrFinished == "finished" ){
+            if (isTestNotStartedRunningOrFinished === "finished" ){
               displayFinalResults();
               resetExtension();
             }
@@ -122,7 +121,7 @@ function autoContinueTest(){
   let linksArray = [...linksSet];
   let continueURL = linksArray[numberOfPagesChecked];
   numberOfPagesChecked += 1;
-  if (continueURL != null){
+  if (continueURL !== null){
     isTestContinueBeingForced = true;
     try {    chrome.tabs.remove([testTabID], function() { });
   } catch(err) {}
@@ -145,24 +144,20 @@ function startTest(startURL) {
 
 
 function shouldTestFinish(){
-    if (isTestNotStartedRunningOrFinished == "notStarted"){
+    if (isTestNotStartedRunningOrFinished === "notStarted"){
         return false;
     } else if (numberOfPagesChecked >= maxNumberOfPagesToCheck){
         return true;
     } else if (numberOfPagesChecked >= linksSet.size){
         addUniqueURLsToLinksArray(tempLinksArray);
-        if (numberOfPagesChecked >= linksSet.size){
-          return true;
-        }
-        return false;
-    } else {
+        return numberOfPagesChecked >= linksSet.size;
+    }
       return false;
-}
 }
 
 function removeLinksThatDontMeetRequirement(_contentArray, _linksMustContain){
     let reducedLinksArray = _contentArray.filter(function(elem){
-    	if (elem.includes(_linksMustContain) == true){
+    	if (elem.includes(_linksMustContain) === true){
       	return elem;
     	}
     });
@@ -177,7 +172,7 @@ function addUniqueURLsToLinksArray(thisContentArray){
 function displayFinalResults(){
   //linksArray = [...linksSet];
   errorsAndTheirLinksArray = matchErrorPagesWithPagesThatLinkToThem(arrayOfPagesWithError, arrayOfLinksOnPages, arrayOfPagesWithError, errorsAndTheirLinksArray );
-  var resultsHTML = convertErrorsAndTheirLinksArrayToHTML(errorsAndTheirLinksArray, numberOfPagesChecked, linksSet);
+  let resultsHTML = convertErrorsAndTheirLinksArrayToHTML(errorsAndTheirLinksArray, numberOfPagesChecked, linksSet);
   chrome.runtime.sendMessage({greeting: "display_results", HTMLtoDisplay: resultsHTML});
   resetExtension();
   notificationOfTestEnded();
@@ -188,7 +183,7 @@ function recordLinksOnCurrentPage(_thisPage, _thisLinksArray){
     arrayOfLinksOnPages.push([_thisPage, _thisLinksArray]);
 }
 function notificationOfTestEnded(){
-    var opt = {
+    let opt = {
       type: "basic",
       title: "Link Skimmer",
       message: "Finished skimming your links",
@@ -198,9 +193,9 @@ function notificationOfTestEnded(){
 }
 
 Set.prototype.union = function(setB) {
-    var union = new Set(this);
-    for (var elem of setB) {
+    let union = new Set(this);
+    for (let elem of setB) {
         union.add(elem);
     }
     return union;
-}
+};

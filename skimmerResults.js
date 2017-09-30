@@ -10,11 +10,11 @@ function addListOfPagesSkimmedToHtml(_arrayOfLinks, _numberOfPagesChecked){
   printThis += "</div></div>";
   return printThis;
 }
-//addListOfPagesSkimmedToHtml(linksArray, numberOfPagesChecked);
+
 function doesThisPageLinkToThisURL(_thisURL, _thisPagesLinksArray){
-  var numberOfLinks = _thisPagesLinksArray.length;
-  for(var i = 0; i < numberOfLinks; i++){
-    if (_thisPagesLinksArray[i] == _thisURL){
+  let numberOfLinks = _thisPagesLinksArray.length;
+  for(let i = 0; i < numberOfLinks; i++){
+    if (_thisPagesLinksArray[i] === _thisURL){
       return true;
     }
   }
@@ -22,10 +22,10 @@ function doesThisPageLinkToThisURL(_thisURL, _thisPagesLinksArray){
 }
 
 function whichPagesHaveThisLink(_thisURL, _thisArrayOfLinksOnPages){
-  var numberOfPages = _thisArrayOfLinksOnPages.length;
-  var pagesThatHaveTheLink = [];
-  for(var i = 0; i < numberOfPages; i++){
-    var arrayOfPageAndItsLinks = _thisArrayOfLinksOnPages[i];
+  let numberOfPages = _thisArrayOfLinksOnPages.length;
+  let pagesThatHaveTheLink = [];
+  for(let i = 0; i < numberOfPages; i++){
+    let arrayOfPageAndItsLinks = _thisArrayOfLinksOnPages[i];
     if (doesThisPageLinkToThisURL(_thisURL, arrayOfPageAndItsLinks[1])){
       pagesThatHaveTheLink.push(arrayOfPageAndItsLinks[0]);
     }
@@ -34,10 +34,10 @@ function whichPagesHaveThisLink(_thisURL, _thisArrayOfLinksOnPages){
 }
 
 function matchErrorPagesWithPagesThatLinkToThem(_errorURLsArray , _thisArrayOfLinksOnPages, _arrayOfPagesWithError, _errorsAndTheirLinksArray){
-  var numberOfErrorsFound = _arrayOfPagesWithError.length;
+  let numberOfErrorsFound = _arrayOfPagesWithError.length;
   for (let i = 0; i < numberOfErrorsFound; i++){
-    var thisErrorURL = _errorURLsArray[i];
-    var isOnThesePages = whichPagesHaveThisLink(thisErrorURL, _thisArrayOfLinksOnPages);
+    let thisErrorURL = _errorURLsArray[i];
+    let isOnThesePages = whichPagesHaveThisLink(thisErrorURL, _thisArrayOfLinksOnPages);
     _errorsAndTheirLinksArray.push([thisErrorURL, isOnThesePages]);
   }
   return _errorsAndTheirLinksArray;

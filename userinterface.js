@@ -1,10 +1,10 @@
 function startBackgroundJS(){
     		$("#startButton").toggle();
       $("#stopButton").toggle();
-  var _startURL = document.getElementById('startURLID').value;
-  var _domainToTest = document.getElementById('domainToTestID').value;
-  var _errorToTest = document.getElementById('lookForID').value;
-  var _maxNumberOfPagesToCheck = document.getElementById('maxNumberOfPagesToCheck').value;
+  let _startURL = document.getElementById('startURLID').value;
+  let _domainToTest = document.getElementById('domainToTestID').value;
+  let _errorToTest = document.getElementById('lookForID').value;
+  let _maxNumberOfPagesToCheck = document.getElementById('maxNumberOfPagesToCheck').value;
   chrome.runtime.sendMessage({greeting: "Start", startURL: _startURL, lookFor: _errorToTest, linksMustContain: _domainToTest, maxNumberOfPagesToCheck: _maxNumberOfPagesToCheck});
 }
 
@@ -23,7 +23,7 @@ $( document ).ready(function() {
 
 chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
-          if (request.greeting == "display_results"){
+          if (request.greeting === "display_results"){
                       document.getElementById('resultsDiv').innerHTML = request.HTMLtoDisplay;
                       addHideEventListener();
                       $("#startButton").toggle();

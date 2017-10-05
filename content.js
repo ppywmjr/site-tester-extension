@@ -1,37 +1,35 @@
-var _currentPageURL = window.location.href;
+let _currentPageURL;
+let contentPageLinksArray;
 
-var contentPageLinksArray = [];
 
-//option 1 to try
 //document.addEventListener("DOMContentLoaded", ready);
 //function ready (){
 
 //option 2 to try
-//window.onload = function() { //this wil be much slower but will allow the page to load
-
-//option 3 as implemented already
-$( document ).ready(function() {
+window.onload = function() {
     console.log( "Document ready!" );
+    _currentPageURL = window.location.href;
+    contentPageLinksArray = [];
     addAllLinksToContentPageLinksArray();
     console.log("sending message to background: Should I test?");
     chrome.runtime.sendMessage({greeting: "Should I test?", currentPageLinks: contentPageLinksArray, currentPageURL: _currentPageURL}, function(response) {
       console.log("shouldITest response is: " + response.shouldITest);
       console.log("test for: " + response.testFor);
       console.log("next page is: " + response.nextPage);
-      if (response.shouldITest == "No"){
+      if (response.shouldITest === "No"){
         setUpListener();
         return null;
       }
       else{
         testPage(response.testFor);
-        if (response.nextPage != "Stop"){
+        if (response.nextPage !== "Stop"){
         loadNextPage(response.nextPage);
       } else {
             chrome.runtime.sendMessage({greeting: "Should I test?", currentPageLinks: []});
       }
       }
     });
-});
+};
 
  function setUpListener(){
         console.log("setUpListener called");
@@ -43,7 +41,7 @@ $( document ).ready(function() {
         console.log("testFor is " + request.testFor);
         console.log("nextPage is " + request.nextPage);
         testPage(request.testFor);
-        if (request.nextPage != null){
+        if (request.nextPage !== null){
           console.log("next page is not stop");
           loadNextPage(request.nextPage);
         }
@@ -51,22 +49,11 @@ $( document ).ready(function() {
 }
 
 function testPage(error){
-  var isError = $( "*:contains('" + error + "')" ).length;
+  let isError = $( "body:contains('" + error + "')" ).length;
   if (isError > 0){
       reportErrorToBackground();
   }
 }
-/*
-function testPageFromArray(_errorArray){
-  for(let i = 0; i < _errorArray.length; i++){
-    let isError1 = $( "*:contains('" + error + "')" ).length;
-    if (isError > 0){
-        reportErrorToBackground();
-        break;
-    }
-  }
-}
-*/
 
 $.expr[":"].contains = $.expr.createPseudo(function(arg) {
   return function( elem ) {
@@ -88,9 +75,9 @@ function reportErrorToBackground(){
 
 function addAllLinksToContentPageLinksArray(){
   console.log("addAllLinksToContentPageLinksArray called");
-  $("a").each(function() {
-    var _thisHref = this.href;
-    if (_thisHref.includes("#!") == false){
+  $("a:visible").each(function() {
+    let _thisHref = this.href;
+    if (_thisHref.includes("#!") === false){
       if (_thisHref.includes("#") ){
           _thisHref = _thisHref.split("#")[0];
         }

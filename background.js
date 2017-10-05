@@ -170,7 +170,6 @@ function addUniqueURLsToLinksArray(thisContentArray){
 }
 
 function displayFinalResults(){
-  //linksArray = [...linksSet];
   errorsAndTheirLinksArray = matchErrorPagesWithPagesThatLinkToThem(arrayOfPagesWithError, arrayOfLinksOnPages, arrayOfPagesWithError, errorsAndTheirLinksArray );
   let resultsHTML = convertErrorsAndTheirLinksArrayToHTML(errorsAndTheirLinksArray, numberOfPagesChecked, linksSet);
   chrome.runtime.sendMessage({greeting: "display_results", HTMLtoDisplay: resultsHTML});

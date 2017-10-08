@@ -7,7 +7,7 @@ let lookFor = ""; //= "error"
 let linksMustContain = "";
 let tempLinksArray = [];
 let arrayOfLinksOnPages = [];
-let currentPageURL = "http://";
+let currentPageURL = "";
 let errorsAndTheirLinksArray = [];
 let sentNextPage = "";
 let lastSentPage = "";

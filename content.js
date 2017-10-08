@@ -1,5 +1,5 @@
-let _currentPageURL;
-let contentPageLinksArray;
+var _currentPageURL;
+var contentPageLinksArray;
 
 
 //document.addEventListener("DOMContentLoaded", ready);

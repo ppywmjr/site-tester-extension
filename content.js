@@ -49,10 +49,13 @@ window.onload = function() {
 }
 
 function testPage(error){
-  let isError = $( "body:contains('" + error + "')" ).length;
-  if (isError > 0){
-      reportErrorToBackground();
-  }
+  let isError = $( "*:contains('" + error + "')" );
+    for (let j = 0; j < isError.length; i++) {
+        if ($(isError[j]).is(':visible')){
+            reportErrorToBackground();
+            return;
+        }
+    }
 }
 
 $.expr[":"].contains = $.expr.createPseudo(function(arg) {

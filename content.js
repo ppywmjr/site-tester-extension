@@ -6,7 +6,8 @@ var contentPageLinksArray;
 //function ready (){
 
 //option 2 to try
-window.onload = function() {
+//window.onload = function() {
+$( document ).ready(function() {
     console.log( "Document ready!" );
     _currentPageURL = window.location.href;
     contentPageLinksArray = [];
@@ -29,7 +30,7 @@ window.onload = function() {
       }
       }
     });
-};
+});
 
  function setUpListener(){
         console.log("setUpListener called");

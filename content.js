@@ -51,12 +51,15 @@ $( document ).ready(function() {
       });
 }
 
-function testPage(error){
-  let isError = $( "*:contains('" + error + "')" );
-    for (let j = 0; j < isError.length; i++) {
-        if ($(isError[j]).is(':visible')){
-            reportErrorToBackground();
-            return;
+function testPage(errorArray){
+     for (let i = 0; i < errorArray.length; i++)
+    {
+        let isError = $("*:contains('" + a + "')");
+        for (let j = 0; j < isError.length; i++) {
+            if ($(isError[j]).is(':visible')) {
+                reportErrorToBackground();
+                return;
+            }
         }
     }
 }

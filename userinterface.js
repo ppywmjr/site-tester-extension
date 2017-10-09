@@ -3,7 +3,8 @@ function startBackgroundJS(){
       $("#stopButton").toggle();
   let _startURL = document.getElementById('startURLID').value;
   let _domainToTest = document.getElementById('domainToTestID').value;
-  let _errorToTest = document.getElementById('lookForID').value;
+  let _errorToTest = [];
+  _errorToTest[0] = document.getElementById('lookForID').value;
   let _maxNumberOfPagesToCheck = document.getElementById('maxNumberOfPagesToCheck').value;
   chrome.runtime.sendMessage({greeting: "Start", startURL: _startURL, lookFor: _errorToTest, linksMustContain: _domainToTest, maxNumberOfPagesToCheck: _maxNumberOfPagesToCheck});
 }

@@ -8,6 +8,7 @@ let linksMustContain = "";
 let tempLinksArray = [];
 let arrayOfLinksOnPages = [];
 let currentPageURL = "";
+let currentPageDomain = "";
 let errorsAndTheirLinksArray = [];
 let sentNextPage = "";
 let lastSentPage = "";
@@ -31,6 +32,7 @@ catch(err) {
   tempLinksArray = [];
   arrayOfLinksOnPages = [];
   currentPageURL = "http://";
+  currentPageDomain = "";
   errorsAndTheirLinksArray = [];
   sentNextPage = "";
   lastSentPage = "";
@@ -43,7 +45,7 @@ chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
         switch (request.greeting){
           case "What is currentPageURL":
-                  sendResponse({startPageURL: currentPageURL});
+                  sendResponse({startPageURL: currentPageURL, startPageDomain: currentPageDomain});
                   break;
           case "Start":
                   let startURL = request.startURL;
@@ -69,6 +71,7 @@ chrome.runtime.onMessage.addListener(
                     case "notStarted":
                       sendResponse({shouldITest: "No"});
                       currentPageURL = request.currentPageURL;
+                      currentPageDomain = request.currentPageDomain;
                       break;
                     case "finished":
                       sendResponse({shouldITest: "No"});

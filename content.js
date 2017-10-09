@@ -1,4 +1,5 @@
 var _currentPageURL;
+var _currentPageDomain;
 var contentPageLinksArray;
 
 
@@ -10,10 +11,11 @@ var contentPageLinksArray;
 $( document ).ready(function() {
     console.log( "Document ready!" );
     _currentPageURL = window.location.href;
+    _currentPageDomain = window.location.hostname;
     contentPageLinksArray = [];
     addAllLinksToContentPageLinksArray();
     console.log("sending message to background: Should I test?");
-    chrome.runtime.sendMessage({greeting: "Should I test?", currentPageLinks: contentPageLinksArray, currentPageURL: _currentPageURL}, function(response) {
+    chrome.runtime.sendMessage({greeting: "Should I test?", currentPageLinks: contentPageLinksArray, currentPageURL: _currentPageURL, currentPageDomain: _currentPageDomain}, function(response) {
       console.log("shouldITest response is: " + response.shouldITest);
       console.log("test for: " + response.testFor);
       console.log("next page is: " + response.nextPage);

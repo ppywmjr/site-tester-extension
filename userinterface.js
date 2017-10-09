@@ -17,7 +17,7 @@ $( document ).ready(function() {
   document.getElementById('stopButton').addEventListener('click', stopBackgroundJS);
   chrome.runtime.sendMessage({greeting: "What is currentPageURL"}, function(response){
     document.getElementById('startURLID').value = response.startPageURL;
-    document.getElementById('domainToTestID').value = response.startPageURL;
+    document.getElementById('domainToTestID').value = response.startPageDomain;
   });
 });
 

@@ -5,8 +5,9 @@ function startBackgroundJS(){
   let _domainToTest = document.getElementById('domainToTestID').value;
   let _errorToTest = [];
   _errorToTest[0] = document.getElementById('lookForID').value;
+  let _errorToTestJSON = JSON.stringify(_errorToTest);
   let _maxNumberOfPagesToCheck = document.getElementById('maxNumberOfPagesToCheck').value;
-  chrome.runtime.sendMessage({greeting: "Start", startURL: _startURL, lookFor: _errorToTest, linksMustContain: _domainToTest, maxNumberOfPagesToCheck: _maxNumberOfPagesToCheck});
+  chrome.runtime.sendMessage({greeting: "Start", startURL: _startURL, lookFor: _errorToTestJSON, linksMustContain: _domainToTest, maxNumberOfPagesToCheck: _maxNumberOfPagesToCheck});
 }
 
 function stopBackgroundJS(){

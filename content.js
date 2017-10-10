@@ -51,10 +51,12 @@ $( document ).ready(function() {
       });
 }
 
-function testPage(errorArray){
+function testPage(errorJSON){
+    var errorArray = JSON.parse(errorJSON);
+ //    let errorArray = $.map(errorJSON, function (el) {return el;})
      for (let i = 0; i < errorArray.length; i++)
     {
-        let isError = $("*:contains('" + a + "')");
+        let isError = $("*:contains('" + errorArray[i] + "')");
         for (let j = 0; j < isError.length; i++) {
             if ($(isError[j]).is(':visible')) {
                 reportErrorToBackground();

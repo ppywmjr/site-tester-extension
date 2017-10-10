@@ -3,7 +3,7 @@ let linksSet = new Set();
 let arrayOfPagesWithError = [];
 let numberOfPagesChecked = 0;
 let maxNumberOfPagesToCheck = 10;
-let lookFor = []; //= "error"
+let lookFor = ""; //= "error"
 let linksMustContain = "";
 let tempLinksArray = [];
 let arrayOfLinksOnPages = [];
@@ -27,7 +27,7 @@ catch(err) {
   arrayOfPagesWithError = [];
   numberOfPagesChecked = 0;
   maxNumberOfPagesToCheck = 0;
-  lookFor = [];
+  lookFor = "";
   linksMustContain = "";
   tempLinksArray = [];
   arrayOfLinksOnPages = [];
@@ -101,7 +101,7 @@ chrome.runtime.onMessage.addListener(
                         }
                         sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
                         clearTimeout(autoContinue);
-                        autoContinue = setTimeout(autoContinueTest, 6000);
+                        autoContinue = setTimeout(autoContinueTest, 600000);
                       }
                       else {
                         sendResponse({shouldITest: "No"});

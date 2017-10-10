@@ -56,7 +56,8 @@ function testPage(errorJSON){
  //    let errorArray = $.map(errorJSON, function (el) {return el;})
      for (let i = 0; i < errorArray.length; i++)
     {
-        let isError = $("*:contains('" + errorArray[i] + "')");
+
+        let isError = $( "body" ).find( "*:contains('" + errorArray[i] + "')");
         for (let j = 0; j < isError.length; i++) {
             if ($(isError[j]).is(':visible')) {
                 reportErrorToBackground();
@@ -86,7 +87,8 @@ function reportErrorToBackground(){
 
 function addAllLinksToContentPageLinksArray(){
   console.log("addAllLinksToContentPageLinksArray called");
-  $("a:visible").each(function() {
+   let links =  $( "body" ).find("a:visible");
+    links.each(function() {
     let _thisHref = this.href;
     if (_thisHref.includes("#!") === false){
       if (_thisHref.includes("#") ){

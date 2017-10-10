@@ -3,18 +3,20 @@ function startBackgroundJS(){
       $("#stopButton").toggle();
   let _startURL = document.getElementById('startURLID').value;
   let _domainToTest = document.getElementById('domainToTestID').value;
+  let _linksToAvoid = document.getElementById('linksToAvoidID').value;
   let _errorsToTest = [];
   let tempErrorsToTest = [];
     tempErrorsToTest[0] = document.getElementById('lookForID1').value;
     tempErrorsToTest[1] = document.getElementById('lookForID2').value;
-  $.each(tempErrorsToTest, function(value) {
+    tempErrorsToTest[2] = document.getElementById('lookForID3').value;
+    tempErrorsToTest[3] = document.getElementById('lookForID4').value;
+    tempErrorsToTest[4] = document.getElementById('lookForID5').value;
+  $.each(tempErrorsToTest, function(index, value) {
       if (value !== ""){_errorsToTest.push(value);}
   });
-  _errorToTest[0] = document.getElementById('lookForID1').value;
-  _errorToTest[1] = document.getElementById('lookForID2').value;
   let _errorsToTestJSON = JSON.stringify(_errorsToTest);
   let _maxNumberOfPagesToCheck = document.getElementById('maxNumberOfPagesToCheck').value;
-  chrome.runtime.sendMessage({greeting: "Start", startURL: _startURL, lookFor: _errorsToTestJSON, linksMustContain: _domainToTest, maxNumberOfPagesToCheck: _maxNumberOfPagesToCheck});
+  chrome.runtime.sendMessage({greeting: "Start", startURL: _startURL, lookFor: _errorsToTestJSON, linksMustContain: _domainToTest, linksMustNotContain: _linksToAvoid, maxNumberOfPagesToCheck: _maxNumberOfPagesToCheck});
 }
 
 function stopBackgroundJS(){

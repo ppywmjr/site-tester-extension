@@ -5,6 +5,7 @@ let numberOfPagesChecked = 0;
 let maxNumberOfPagesToCheck = 10;
 let lookFor = ""; //= "error"
 let linksMustContain = "";
+let linksMustNotContain = "";
 let tempLinksArray = [];
 let arrayOfLinksOnPages = [];
 let currentPageURL = "";
@@ -53,6 +54,7 @@ chrome.runtime.onMessage.addListener(
                   lastSentPage = sentNextPage;
                   lookFor = request.lookFor;
                   linksMustContain = request.linksMustContain;
+                  linksMustNotContain = request.linksMustNotContain;
                   maxNumberOfPagesToCheck = request.maxNumberOfPagesToCheck;
                   linksSet.add(startURL);
                   startTest(startURL);
@@ -87,7 +89,7 @@ chrome.runtime.onMessage.addListener(
                         isTestContinueBeingForced = false;
                       }
                       if (testTabID === sender.tab.id){
-                        tempLinksArray = removeLinksThatDontMeetRequirement(tempLinksArray, linksMustContain);
+                        tempLinksArray = removeLinksThatDontMeetRequirement(tempLinksArray, linksMustContain, linksMustNotContain);
                         addUniqueURLsToLinksArray(tempLinksArray);
                         recordLinksOnCurrentPage(request.currentPageURL, tempLinksArray);
                         numberOfPagesChecked = numberOfPagesChecked + 1;
@@ -101,7 +103,7 @@ chrome.runtime.onMessage.addListener(
                         }
                         sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
                         clearTimeout(autoContinue);
-                        autoContinue = setTimeout(autoContinueTest, 600000);
+                        autoContinue = setTimeout(autoContinueTest, 6000);
                       }
                       else {
                         sendResponse({shouldITest: "No"});
@@ -109,8 +111,7 @@ chrome.runtime.onMessage.addListener(
                     }
                       break;
           case "Sending error":
-            arrayOfPagesWithError.push(lastSentPage);
-            //sendResponse("Error Stored");
+            arrayOfPagesWithError.push(request.errorPage);
             if (isTestNotStartedRunningOrFinished === "finished" ){
               displayFinalResults();
               resetExtension();
@@ -158,9 +159,9 @@ function shouldTestFinish(){
       return false;
 }
 
-function removeLinksThatDontMeetRequirement(_contentArray, _linksMustContain){
+function removeLinksThatDontMeetRequirement(_contentArray, _linksMustContain, _linksMustNotContain){
     let reducedLinksArray = _contentArray.filter(function(elem){
-    	if (elem.includes(_linksMustContain) === true){
+    	if (elem.includes(_linksMustContain) === true && elem.includes(_linksMustNotContain) === false){
       	return elem;
     	}
     });

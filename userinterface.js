@@ -3,11 +3,18 @@ function startBackgroundJS(){
       $("#stopButton").toggle();
   let _startURL = document.getElementById('startURLID').value;
   let _domainToTest = document.getElementById('domainToTestID').value;
-  let _errorToTest = [];
-  _errorToTest[0] = document.getElementById('lookForID').value;
-  let _errorToTestJSON = JSON.stringify(_errorToTest);
+  let _errorsToTest = [];
+  let tempErrorsToTest = [];
+    tempErrorsToTest[0] = document.getElementById('lookForID1').value;
+    tempErrorsToTest[1] = document.getElementById('lookForID2').value;
+  $.each(tempErrorsToTest, function(value) {
+      if (value !== ""){_errorsToTest.push(value);}
+  });
+  _errorToTest[0] = document.getElementById('lookForID1').value;
+  _errorToTest[1] = document.getElementById('lookForID2').value;
+  let _errorsToTestJSON = JSON.stringify(_errorsToTest);
   let _maxNumberOfPagesToCheck = document.getElementById('maxNumberOfPagesToCheck').value;
-  chrome.runtime.sendMessage({greeting: "Start", startURL: _startURL, lookFor: _errorToTestJSON, linksMustContain: _domainToTest, maxNumberOfPagesToCheck: _maxNumberOfPagesToCheck});
+  chrome.runtime.sendMessage({greeting: "Start", startURL: _startURL, lookFor: _errorsToTestJSON, linksMustContain: _domainToTest, maxNumberOfPagesToCheck: _maxNumberOfPagesToCheck});
 }
 
 function stopBackgroundJS(){

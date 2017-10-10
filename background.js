@@ -161,9 +161,15 @@ function shouldTestFinish(){
 
 function removeLinksThatDontMeetRequirement(_contentArray, _linksMustContain, _linksMustNotContain){
     let reducedLinksArray = _contentArray.filter(function(elem){
-    	if (elem.includes(_linksMustContain) === true && elem.includes(_linksMustNotContain) === false){
-      	return elem;
-    	}
+        if (_linksMustNotContain === ""){
+            if (elem.includes(_linksMustContain) === true) {
+                return elem;
+            }
+        } else {
+            if (elem.includes(_linksMustContain) === true && elem.includes(_linksMustNotContain) === false) {
+                return elem;
+            }
+        }
     });
       return reducedLinksArray;
 }

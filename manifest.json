@@ -1,6 +1,6 @@
 {
   "name": "Link Skimmer",
-  "version": "1.1.5.0",
+  "version": "1.1.6.0",
   "description": "Link skimmer is a QA testing tool. It skims the links on your site reporting errors or terms you specifiy, eg '404', 'stack trace'",
   "permissions": [
     "notifications",
@@ -18,10 +18,10 @@
 }],
   "browser_action": {
       "default_title": "Link Skimmer",
-      "default_icon": "SiteSkimmer32.png"
+      "default_icon": "SiteSkimmerIconTwo128border.png"
   },
   "icons" : {
-    "128": "SiteSkimmer128border.png"
+    "128": "SiteSkimmerIconTwo128border.png"
   },
   "manifest_version": 2
 }

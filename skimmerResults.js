@@ -5,7 +5,7 @@ function addListOfPagesSkimmedToHtml(_arrayOfLinks, _numberOfPagesChecked){
   printThis += "<span class='toggleArrow'>&#9650; details</span>";
   printThis += "<div class='startHidden'><br>";
   for (let j = 0; j < _numberOfPagesChecked; j++ ){
-    printThis += "<a href='" + _arrayOfLinks[j] + "' target='_blank'>" + _arrayOfLinks[j] + "</a><br>";
+    printThis += "<a href='" + _arrayOfLinks[j] + "' target='_blank'>" + _arrayOfLinks[j] + "</a>";
   }
   printThis += "</div></div>";
   return printThis;
@@ -47,8 +47,7 @@ function convertErrorsAndTheirLinksArrayToHTML(_errorsAndTheirLinksArray, _numbe
   let _linksArray = [..._linksSet];
   let printThis = "";
   let numberOfErrorsFound = _errorsAndTheirLinksArray.length;
-  if (numberOfErrorsFound > 0){
-    printThis += "<h1>Results found:</h1><ul>";
+    printThis += "<ul>";
     printThis += "<li>" + _numberOfPagesChecked.toString() + " pages skimmed.";
     printThis += "<br>" + numberOfErrorsFound.toString() + " results found.";
     printThis += addListOfPagesSkimmedToHtml(_linksArray, _numberOfPagesChecked);
@@ -63,14 +62,10 @@ function convertErrorsAndTheirLinksArrayToHTML(_errorsAndTheirLinksArray, _numbe
       printThis += "<a href='" + thisErrorURL + "' target='_blank'>" + thisErrorURL + "</a>";
       printThis += "<div class='errorPageLinksP'><span name='downArrow' class='startHidden toggleArrow' >&#9660; Pages that link to it are:</span></span><span class='toggleArrow'>&#9650; details</span>	<div class='startHidden'><br>";
       for (let j = 0; j < numberOfLinks; j++ ){
-        printThis += "<a href='" + itsLinks[j] + "' target='_blank'>" + itsLinks[j] + "</a><br>";
+        printThis += "<a href='" + itsLinks[j] + "' target='_blank'>" + itsLinks[j] + "</a>";
       }
       printThis += "</div></div></li>";
     }
-  } else {
-    printThis += "<h1>No results found:</h1><ul>";
-    printThis += "<li>" + _numberOfPagesChecked.toString() + " pages skimmed.</li></ul>";
-  }
   printThis += "</ul>";
   return printThis;
 }

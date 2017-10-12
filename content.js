@@ -55,16 +55,10 @@ function testPage(errorJSON){
     var errorArray = JSON.parse(errorJSON);
  //    let errorArray = $.map(errorJSON, function (el) {return el;})
      for (let i = 0; i < errorArray.length; i++) {
-
-         $("li").each(function (index) {
-             console.log(index + ": " + $(this).text());
-         });
-
-
          $("body").find("*:contains('" + errorArray[i] + "')").each(function () {
                  if ($(this).is(':visible') && !isElementTagNameANonVisibleType($(this).prop("tagName"))) {
                      reportErrorToBackground();
-                     return;
+                    return false;
                  }
              }
          );

@@ -1,12 +1,15 @@
 {
   "name": "Link Skimmer",
-  "version": "1.1.7.0",
+  "version": "1.2.0.0",
   "description": "Link skimmer is a QA testing tool. It skims the links on your site reporting errors or terms you specifiy, eg '404', 'stack trace'",
   "permissions": [
     "notifications",
     "tabs"
   ],
   "web_accessible_resources": [
+    "jquery-3.2.1.slim.min.js",
+    "popper.min.js",
+    "bootstrap.min.js"
   ],
   "background": {
     "page": "background.html",

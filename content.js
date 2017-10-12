@@ -54,23 +54,27 @@ $( document ).ready(function() {
 function testPage(errorJSON){
     var errorArray = JSON.parse(errorJSON);
  //    let errorArray = $.map(errorJSON, function (el) {return el;})
-     for (let i = 0; i < errorArray.length; i++)
-    {
+     for (let i = 0; i < errorArray.length; i++) {
 
-        let isError = $( "body" ).find( "*:contains('" + errorArray[i] + "')");
-        for (let j = 0; j < isError.length; i++) {
-            if ($(isError[j]).is(':visible') && !isElementTagNameAnNonVisibleType(isError[j])) {
-                reportErrorToBackground();
-                return;
-            }
-        }
-    }
+         $("li").each(function (index) {
+             console.log(index + ": " + $(this).text());
+         });
+
+
+         $("body").find("*:contains('" + errorArray[i] + "')").each(function () {
+                 if ($(this).is(':visible') && !isElementTagNameANonVisibleType($(this).prop("tagName"))) {
+                     reportErrorToBackground();
+                     return;
+                 }
+             }
+         );
+     }
 }
 
-function isElementTagNameAnNonVisibleType(elem){
+function isElementTagNameANonVisibleType(tagName){
     let nonVisibleTags = ['script','meta','link','noscript','param'];
-for (let i = 0; i < nonVisibleTags.length; i++) {
-    if (elem.prop("tagName").toLowerCase() == nonVisibleTags[i]) {
+    for (let k = 0; k < nonVisibleTags.length; k++) {
+    if (tagName.toLowerCase() == nonVisibleTags[k]) {
         return true;
     }
 }

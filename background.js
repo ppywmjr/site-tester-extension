@@ -103,7 +103,7 @@ chrome.runtime.onMessage.addListener(
                         }
                         sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
                         clearTimeout(autoContinue);
-                        autoContinue = setTimeout(autoContinueTest, 3000);
+                        autoContinue = setTimeout(autoContinueTest, 300000);
                       }
                       else {
                         sendResponse({shouldITest: "No"});

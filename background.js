@@ -103,7 +103,7 @@ chrome.runtime.onMessage.addListener(
                         }
                         sendResponse({shouldITest: "Yes", testFor: lookFor, nextPage: sentNextPage});
                         clearTimeout(autoContinue);
-                        autoContinue = setTimeout(autoContinueTest, 6000);
+                        autoContinue = setTimeout(autoContinueTest, 3000);
                       }
                       else {
                         sendResponse({shouldITest: "No"});
@@ -137,7 +137,7 @@ function autoContinueTest(){
 }
 
 
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.browserAction.onClicked.addListener(function() {
     chrome.tabs.create({'url': 'background.html'});
 });
 
@@ -212,7 +212,7 @@ Set.prototype.union = function(setB) {
 function isURLADocument (url){
     let filetypes = ['.pdf', '.zip', '.exe', '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.mp3', '.jpg', '.png', '.ico', '.avi', '.asf', '.mov', '.qt', '.avchd', '.flv', '.swf', '.mpg', '.mpeg', '.mp4', 'mpeg4', '.wmv','.divx','.tif', '.gif','.bat','.bin','.cmd','.ipa','.msc','.msi','.reg','docm','.jar'];
     for (let j = 0; j<filetypes.length; j++){
-        if (url.endsWith(filetypes[j])){return true;}
+        if (url.toLowerCase().endsWith(filetypes[j])){return true;}
     }
     return false
 }

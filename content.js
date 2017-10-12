@@ -59,13 +59,24 @@ function testPage(errorJSON){
 
         let isError = $( "body" ).find( "*:contains('" + errorArray[i] + "')");
         for (let j = 0; j < isError.length; i++) {
-            if ($(isError[j]).is(':visible')) {
+            if ($(isError[j]).is(':visible') && !isElementTagNameAnNonVisibleType(isError[j])) {
                 reportErrorToBackground();
                 return;
             }
         }
     }
 }
+
+function isElementTagNameAnNonVisibleType(elem){
+    let nonVisibleTags = ['script','meta','link','noscript','param'];
+for (let i = 0; i < nonVisibleTags.length; i++) {
+    if (elem.prop("tagName").toLowerCase() == nonVisibleTags[i]) {
+        return true;
+    }
+}
+return false;
+}
+
 
 $.expr[":"].contains = $.expr.createPseudo(function(arg) {
   return function( elem ) {

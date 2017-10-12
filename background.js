@@ -162,11 +162,11 @@ function shouldTestFinish(){
 function removeLinksThatDontMeetRequirement(_contentArray, _linksMustContain, _linksMustNotContain){
     let reducedLinksArray = _contentArray.filter(function(elem){
         if (_linksMustNotContain === ""){
-            if (elem.includes(_linksMustContain) === true) {
+            if (elem.includes(_linksMustContain) === true && !isURLADocument(elem)) {
                 return elem;
             }
         } else {
-            if (elem.includes(_linksMustContain) === true && elem.includes(_linksMustNotContain) === false) {
+            if (elem.includes(_linksMustContain) === true && elem.includes(_linksMustNotContain) === false && !isURLADocument(elem)) {
                 return elem;
             }
         }
@@ -208,3 +208,11 @@ Set.prototype.union = function(setB) {
     }
     return union;
 };
+
+function isURLADocument (url){
+    let filetypes = ['.pdf', '.zip', '.exe', '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.mp3', '.jpg', '.png', '.ico', '.avi', '.asf', '.mov', '.qt', '.avchd', '.flv', '.swf', '.mpg', '.mpeg', '.mp4', 'mpeg4', '.wmv','.divx','.tif', '.gif','.bat','.bin','.cmd','.ipa','.msc','.msi','.reg','docm','.jar'];
+    for (let j = 0; j<filetypes.length; j++){
+        if (url.endsWith(filetypes[j])){return true;}
+    }
+    return false
+}

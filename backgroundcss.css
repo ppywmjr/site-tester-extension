@@ -1,49 +1,53 @@
+:root  {
+    --dark-color: #181dac;
+    --medium-color: #588dbc;
+    --light-color: #e0efff;
+}
+
 a {
     text-decoration: none;
 }
 
 .form-style-7 {
     max-width: 900px;
-    margin:10px auto;
     background:#fff;
-    border-radius:2px;
-    padding:20px;
+    padding:0px;
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 .form-style-7 h1{
     display: block;
     text-align: center;
-    padding: 0;
-    margin: 0px 0px 20px 0px;
-    color: #185dac;
+    padding: 0px;
+    margin: 0 0 20px 0;
+    color: var(--dark-color);
     font-size:x-large;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .form-style-7 ul{
     list-style:none;
-    padding: 0;
-    padding-top: 10px;
+    padding: 10px 0 0 0;
     margin:0;
 }
 .form-style-7 li{
     display: block;
     padding: 9px;
-    border:1px solid #7cb6e5;
-    margin-bottom: 30px;
-    border-radius: 3px;
+    border:1px solid;
+    border-color: var(--dark-color);
+    margin-bottom: 15px;
     font-size: 16px;
-    color: #588dbc;
+    color: var(--medium-color);
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .form-style-7 li > label{
     display: block;
     float: left;
-    margin-top: -19px;
+    margin-top: -16px;
     background: #FFFFFF;
     height: 14px;
-    padding: 2px 5px 2px 5px;
-    color: #7cb6e5;
-    font-size: 14px;
+    padding: 0 5px;
+    color: var(--medium-color);
+    font-size: 12px;
     overflow: hidden;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -63,7 +67,7 @@ a {
     box-sizing: border-box;
     width: 100%;
     margin: auto;
-    color: #185dac;
+    color: var(--dark-color);
     display: block;
     outline: none;
     border: none;
@@ -86,16 +90,16 @@ a {
 .form-style-7 textarea:focus,
 .form-style-7 select:focus
 {
-      color: #588dbc;
-      font-family: Georgia, "Times New Roman", Times, serif;
+    color: var(--medium-color);
+    font-family: Georgia, "Times New Roman", Times, serif;
 }
 .form-style-7 li > span{
-    background: #c6e1ff;
+    background: var(--light-color);
     display: block;
     padding: 3px;
     margin: 0 -9px -9px -9px;
     text-align: center;
-    color: #588dbc;
+    color: var(--medium-color);
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
 }
@@ -104,43 +108,44 @@ a {
 }
 .form-style-7 a
 {
-    color: #185dac;
+    color: var(--dark-color);
     text-decoration: none;
 }
 .form-style-7 a:hover
 {
-    color: #102d8c;
+    color: var(--dark-color);
 
 }
 button {
-    margin: 20px;
-    background: #c6e1ff;
+    margin: 0px 5px;
+    background: var(--light-color);
     border: none;
-    padding: 10px 20px 10px 20px;
-    border-bottom: 3px solid #588dbc;
-    border-radius: 3px;
-    color: #588dbc;
+    padding: 10px 20px;
+    border-bottom: 3px solid;
+    border-color: var(--medium-color);
+    color: var(--medium-color);
 }
 button:hover{
-    background: #588dbc;
-    border-bottom: 3px solid #c6e1ff;
-    color:#c6e1ff;
+    background: var(--medium-color);
+    border-bottom: 3px solid;
+    border-color: var(--light-color);
+    color: var(--light-color);
 }
 
 .errorPageLinksP span {
-    color: #7cb6e5;
+    color: var(--medium-color);
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
 }
 
 .startHidden {
-  display: none;
+    display: none;
 }
 #stopButton {
-  float: right;
+    float: right;
 }
 #startButton {
-  float: left;
+    float: left;
 }
 #extension-input-container {
     overflow: hidden;
@@ -151,22 +156,24 @@ button:hover{
     overflow: auto;
 }
 .main-header {
-  text-align: left;
+    text-align: left;
 }
 .main-header h1{
     display: inline;
     vertical-align: middle;
     text-align: left;
     padding: 0;
-    margin: 0px 0px 20px 0px;
-    color: #185dac;
+    margin: 0 0 20px 10px;
+    color: var(--dark-color);
     font-size:x-large;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 .main-header img{
-  display: inline;
-  height: 40px;
-  border-radius: 50%;
-  vertical-align: middle;
+    display: inline;
+    height: 40px;
+    border-radius: 50%;
+    vertical-align: middle;
 }
 
 #github-link img {

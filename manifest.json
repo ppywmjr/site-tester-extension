@@ -1,6 +1,6 @@
 {
   "name": "Link Skimmer",
-  "version": "1.1.6.0",
+  "version": "1.1.7.0",
   "description": "Link skimmer is a QA testing tool. It skims the links on your site reporting errors or terms you specifiy, eg '404', 'stack trace'",
   "permissions": [
     "notifications",

@@ -196,7 +196,7 @@ function notificationOfTestEnded(){
       type: "basic",
       title: "Link Skimmer",
       message: "Finished skimming your links",
-      iconUrl: "SiteSkimmer32.png"
+      iconUrl: "SiteSkimmerIconTwo128border.png"
     };
     chrome.notifications.create(opt);
 }

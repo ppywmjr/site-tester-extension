@@ -29,7 +29,7 @@ catch(err) {
   numberOfPagesChecked = 0;
   maxNumberOfPagesToCheck = 0;
   lookFor = "";
-  linksMustContain = "";
+  linksMustContain = [];
   tempLinksArray = [];
   arrayOfLinksOnPages = [];
   currentPageURL = "http://";
@@ -160,19 +160,30 @@ function shouldTestFinish(){
 }
 
 function removeLinksThatDontMeetRequirement(_contentArray, _linksMustContain, _linksMustNotContain){
+    let linksMustNotContainArray = JSON.parse(_linksMustNotContain);
     let reducedLinksArray = _contentArray.filter(function(elem){
-        if (_linksMustNotContain === ""){
+        if (linksMustNotContainArray === []){
             if (elem.includes(_linksMustContain) === true && !isURLADocument(elem)) {
                 return elem;
             }
         } else {
-            if (elem.includes(_linksMustContain) === true && elem.includes(_linksMustNotContain) === false && !isURLADocument(elem)) {
+            if (elem.includes(_linksMustContain) === true && !isURLADocument(elem) && linkContainsNoRestrictedTerms(elem, linksMustNotContainArray)) {
                 return elem;
             }
         }
     });
       return reducedLinksArray;
 }
+
+function linkContainsNoRestrictedTerms (elem, linksMustNotContainArray){
+    for (let i = 0; i < linksMustNotContainArray.length; i++){
+        if (elem.includes(linksMustNotContainArray[i]) === true){
+            return false;
+        }
+    }
+    return true;
+}
+
 
 function addUniqueURLsToLinksArray(thisContentArray){
   let thisContentSet = new Set(thisContentArray);
